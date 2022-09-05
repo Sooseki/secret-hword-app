@@ -1,5 +1,5 @@
 import React from 'react';
-import './Room.css';
+import './Room.scss';
 
 function Room() {
   return (

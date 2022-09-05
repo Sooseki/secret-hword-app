@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Form from '../../Components/Form/Form';
-import './Login.css';
+import Form from '../../components/Form/Form';
+import './Login.scss';
 
 function Login() {  
   
@@ -14,15 +14,10 @@ function Login() {
   const form = {
     inputs: [
       {      
-        'name': 'email',
-        'type': 'email', 
-        'placeholder': 'Email',
+        'name': 'pseudo',
+        'type': 'text', 
+        'placeholder': 'Enter your 39 - 45 name',
       },
-      {      
-        'name': 'password',
-        'type': 'password', 
-        'placeholder': 'Password',
-      }
     ],
     handleSubmit: sendUsername
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import './PlayerIcon.css';
+import './PlayerIcon.scss';
 
 function PlayerIcon() {
   return (
