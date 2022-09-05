@@ -1,9 +1,15 @@
-import React from 'react';
-import './PlayerIcon.css';
+import React, { Component } from 'react';
+import './PlayerIcon.scss';
 
-function PlayerIcon() {
+type PlayerIcon = {
+  playerName : string,
+}
+
+const PlayerIcon = ({playerName}: PlayerIcon) => {
   return (
-    <div className="PlayerIcon">
+    <div className="playerComponent">
+      <img src='../../../public/user.png' alt='user-image'></img>
+      <h1 className='playerName'>{playerName}</h1>
     </div>
   );
 }
