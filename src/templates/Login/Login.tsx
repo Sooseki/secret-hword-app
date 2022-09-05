@@ -15,7 +15,7 @@ function Login() {
     inputs: [
       {      
         'name': 'pseudo',
-        'type': 'text', 
+        'type': 'text',
         'placeholder': 'Enter your 39 - 45 name',
       },
     ],
