@@ -27,10 +27,11 @@ function Room() {
   }
   const formCreateRoom = {
     inputs: [
-      {      
+      {   
         'name': 'create-room',
-        'type': 'button',
-        'placeholder': 'Create a new room',
+        'type': 'submit',
+        'placeholder': 'Create a new room',   
+        'value': 'Create a new room'
       },
     ],
     handleSubmit: sendCreateRoom

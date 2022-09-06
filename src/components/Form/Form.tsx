@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { DetailedHTMLProps, HtmlHTMLAttributes } from 'react';
+import { Style } from 'util';
 import './Form.scss';
 
 type Input = {
   name: string; 
   type: string;
-  placeholder: string;
+  placeholder: string; 
+  value ?: string;
 }
 
 interface props {
   form: {
     inputs: Input[],
-    handleSubmit: React.FormEventHandler<HTMLFormElement>
+    handleSubmit: React.FormEventHandler<HTMLFormElement>,
   },
-  setData: React.Dispatch<React.SetStateAction<{}>>
+  setData: React.Dispatch<React.SetStateAction<{}>>,
 }
 
 const Form = ({form, setData}: props) => {
@@ -25,16 +27,20 @@ const Form = ({form, setData}: props) => {
   }
 
   return (
-    <div className="Form">
+    <div className="form">
       <form onSubmit={form.handleSubmit}>
         {form.inputs.map((key, index, input) => {
           return (
-            <div>
-              <input type={form.inputs[index].type} onChange={(e) => updateForm(e, form.inputs[index].name)} placeholder={form.inputs[index].placeholder}/>
+            <div key={index}>
+              <input 
+                  type={form.inputs[index].type} 
+                  onChange={(e) => updateForm(e, form.inputs[index].name)} 
+                  placeholder={form.inputs[index].placeholder}
+                  value={form.inputs[index].value ? form.inputs[index].value : ''}
+              />
             </div>
           );
         })}
-        <input type="submit" className="submit" value="Valider" />
       </form>
     </div>
   )
