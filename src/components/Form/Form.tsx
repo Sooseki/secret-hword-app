@@ -1,6 +1,7 @@
-import React, { DetailedHTMLProps, HtmlHTMLAttributes } from 'react';
+import React, { FormEvent, DetailedHTMLProps, HtmlHTMLAttributes } from 'react';
 import { Style } from 'util';
 import './Form.scss';
+import Axios from 'axios'
 
 type Input = {
   name: string; 

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import './Room.scss';
 import Form from '../../components/Form/Form';
 import { useState } from 'react';
+import Axios from 'axios'
 
 function Room() {
   const [roomNumber, setRoomNumber] = useState({});
@@ -10,7 +11,18 @@ function Room() {
   const sendRoomNumber = (e: any) => {
     e.preventDefault()
     console.log("roomNumber ok")
+    Axios.post(`url`, {
+      roomNumber: roomNumber,
+      roomCreation: roomCreation
+    })
+    .then((response) => {
+      console.log('data sent', response);
+    })
+    .catch((error) => {
+      console.log('Error encountered', error)
+    });
   }
+}
   const sendCreateRoom = (e: any) => {
     e.preventDefault()
     console.log("roomCreation ok")
