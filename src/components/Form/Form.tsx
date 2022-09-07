@@ -2,6 +2,7 @@ import React, { FormEvent, DetailedHTMLProps, HtmlHTMLAttributes } from 'react';
 import { Style } from 'util';
 import './Form.scss';
 import Axios from 'axios'
+import {User} from '../../types/types'
 
 type Input = {
   name: string; 
@@ -15,7 +16,7 @@ interface props {
     inputs: Input[],
     handleSubmit: React.FormEventHandler<HTMLFormElement>,
   },
-  setData: React.Dispatch<React.SetStateAction<{}>>,
+  setData: React.Dispatch<React.SetStateAction<User>> | React.Dispatch<React.SetStateAction<{}>>,
 }
 
 const Form = ({form, setData}: props) => {
@@ -33,12 +34,20 @@ const Form = ({form, setData}: props) => {
         {form.inputs.map((key, index, input) => {
           return (
             <div key={index}>
+              {form.inputs[index].value ?
+              <input
+              type={form.inputs[index].type}
+              onChange={(e) => updateForm(e, form.inputs[index].name)} 
+              placeholder={form.inputs[index].placeholder}
+              value={form.inputs[index].value}
+              /> 
+              :
               <input 
-                  type={form.inputs[index].type} 
-                  onChange={(e) => updateForm(e, form.inputs[index].name)} 
-                  placeholder={form.inputs[index].placeholder}
-                  value={form.inputs[index].value ? form.inputs[index].value : ''}
+              type={form.inputs[index].type} 
+              onChange={(e) => updateForm(e, form.inputs[index].name)} 
+              placeholder={form.inputs[index].placeholder}
               />
+            }
             </div>
           );
         })}

@@ -1,42 +1,22 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import './Room.scss';
 import Form from '../../components/Form/Form';
-import { useState } from 'react';
-import Axios from 'axios'
+import { useState, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
+import { UserContext } from '../../themeContext';
 
 function Room() {
-  const [roomNumber, setRoomNumber] = useState({});
-  const [roomCreation, setRoomCreation] = useState({});
-
-  const sendRoomNumber = (e: any) => {
-    e.preventDefault()
-    console.log("roomNumber ok")
-    Axios.post(`url`, {
-      roomNumber: roomNumber,
-      roomCreation: roomCreation
-    })
-    .then((response) => {
-      console.log('data sent', response);
-    })
-    .catch((error) => {
-      console.log('Error encountered', error)
-    });
-  }
-}
+  const {player} = useContext(UserContext);
+  console.log("this is a nice thing omg", player)
+  const [roomCreation, setRoomCreation] = useState({}); //check if usefull
+  const navigate = useNavigate();
   const sendCreateRoom = (e: any) => {
     e.preventDefault()
-    console.log("roomCreation ok")
-  }
-  const formRoomNumber = {
-    inputs: [
-      {      
-        'name': 'room-number',
-        'type': 'text',
-        'placeholder': 'Enter your room number',
-      },
-    ],
-    handleSubmit: sendRoomNumber
-  }
+    //console.log(roomCreation)
+    localStorage.setItem("isRoomCreated", 'true')
+    navigate('/game', {replace: true})
+  };
+  
   const formCreateRoom = {
     inputs: [
       {   
@@ -52,7 +32,6 @@ function Room() {
 
   return (
     <div className="room">
-      <Form form={formRoomNumber} setData={setRoomNumber} />
       <Form form={formCreateRoom} setData={setRoomCreation} />
     </div>
   );

@@ -6,7 +6,6 @@ import Board from '../templates/Board/Board'
 
 
 const Router = () => {
-  console.log('okok')
   return (
     <BrowserRouter>
       <Routes>

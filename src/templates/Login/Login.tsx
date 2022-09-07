@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Form from '../../components/Form/Form';
 import './Login.scss';
+import {User} from '../../types/types'
+import {useNavigate} from 'react-router-dom';
+import {UserContext} from '../../themeContext';
 
 function Login() {  
-  
-  const [data, setData] = useState({})
+  const {player, setPlayer} = useContext(UserContext);
+  const [data, setData] = useState<User>({username:''})
+  const navigate = useNavigate();
 
   const sendUsername = (e: any) => {
     e.preventDefault()
-    console.log("good good")
+    setPlayer({...player, username: data.username})
+    localStorage.setItem('username', data.username)
+    navigate('/rooms', {replace: true})
   }
-
   const form = {
     inputs: [
       {      
-        'name': 'pseudo',
+        'name': 'username',
         'type': 'text',
-        'placeholder': 'Enter your 39 - 45 name',
+        'placeholder': 'Enter your 39 - 45 name'
       },
     ],
     handleSubmit: sendUsername
