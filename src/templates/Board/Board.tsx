@@ -5,13 +5,18 @@ import { io } from "socket.io-client";
 import { UserContext } from "../../themeContext";
 import { useNavigate, Link } from "react-router-dom";
 import { Player } from "../../types/types";
+import useModal from "../../hooks/useModal";
+import Modal from "../../components/Modal/Modal"
 
 const socket = io("http://localhost:5555");
-function Board() {
+
+const Board:any = () => {
+  const { isModalShowing, toggle } = useModal();
   const navigate = useNavigate();
   const { player, setPlayer } = useContext(UserContext);
   let tempPlayer = player;
   const [otherPlayers, setOtherPlayers] = useState<Set<Player>>(new Set([]));
+
   const startGame = (players: any) => {
     console.log("start game");
   };
@@ -103,6 +108,10 @@ function Board() {
             <PlayerIcon player={player}></PlayerIcon>;
             </div> 
           })}
+      </div>
+      <div className="rules-modal">
+        <button type="button" className="rules-button" onClick={toggle}>Rules</button>
+        <Modal isModalShowing={isModalShowing} hideModal={toggle}/>
       </div>
     </div>
   );
