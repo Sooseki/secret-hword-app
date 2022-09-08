@@ -3,7 +3,8 @@ import Form from "../../components/Form/Form"
 import "./Login.scss"
 
 import { SvgCards } from "../../assets/SvgCards"
-import Title from "../../assets/imgs/title.png"
+import Title from "../../assets/imgs/banner.png"
+import PlayButton from "../../assets/imgs/testPlay.png"
 
 export const Login = () => {
   const [data, setData] = useState({})
@@ -27,10 +28,17 @@ export const Login = () => {
   return (
     <div className="loginPage">
       <div className="bannerContainer">
-        <div>
-          <SvgCards size={["30%", "30%"]} />
+        <div className="svgContainer">
+          <SvgCards size={["25%", "25%"]} />
+        </div>
+        <div className="titleContainer">
+          <h1>SECRET HITLER</h1>
         </div>
         <img src={Title} />
+        <div className="playContainer">
+          {" "}
+          <h2>PLAY</h2>
+        </div>
       </div>
     </div>
   )

@@ -1,42 +1,38 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react"
 type Props = {
   size: Array<string>
 }
 
 export const SvgCards = ({ size }: Props) => {
-  // console.log({ size })
 
-  const [globalCoords, setGlobalCoords] = useState({x: 0, y: 0});
-
-
+  const [globalCoords, setGlobalCoords] = useState({ x: "", y: "" })
 
   useEffect(() => {
     // 👇️ get global mouse coordinates
-    const handleWindowMouseMove = (event:any) => {
+    const handleWindowMouseMove = (event: any) => {
       setGlobalCoords({
-        x: (((event.screenX * 1) / window.outerWidth) * 4),
-        y: event.screenY * -1,
-      });
-      
-    };
-    
-    window.addEventListener('mousemove', handleWindowMouseMove);
+        x: (((event.screenX * 1) / window.outerWidth) * 4 + 348).toString(),
+        y: (((event.screenX * -1) / window.outerWidth) * 7 + 151.5).toString(),
+      })
+    }
+
+    window.addEventListener("mousemove", handleWindowMouseMove)
 
     return () => {
-     window.removeEventListener('mousemove', handleWindowMouseMove)
-    };
-  }, []);
+      window.removeEventListener("mousemove", handleWindowMouseMove)
+    }
+  }, [])
 
-  const onClick = (e:any) => {
-    // test = "15"
-    console.log('yeet')
-  }
+  // const onClick = (e: any) => {
+  //   console.log("yeet")
+  // }
+
   console.log(globalCoords.x)
   return (
     <>
       <svg
-        width="459"
-        height="347"
+        width={size[0]}
+        height={size[1]}
         viewBox="0 0 459 347"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -188,14 +184,14 @@ export const SvgCards = ({ size }: Props) => {
             fill="#887F6D"
           />
           <ellipse
-            cx="353"
+            cx={globalCoords.x}
+            // cx= "348"
             cy="187"
             rx="4"
             ry="5"
             fill="#645C50"
-            onClick={onClick}
+            // onClick={onClick}
             className="yeet"
-            style={{transform : `translateX(${globalCoords.x}px)`}}
           />
         </g>
         <g clip-path="url(#clip1_87_11863)">
@@ -288,7 +284,7 @@ export const SvgCards = ({ size }: Props) => {
             fill="#D9C6AB"
           />
 
-          <circle cx="141.5" cy="143.5" r="7.5" fill="#FF0A0A" />
+          <circle cx={globalCoords.y} cy="143.5" r="7.5" fill="#645C50" />
           <path
             d="M151.896 141.046C151.854 141.058 151.813 141.063 151.771 141.075C151.813 141.063 151.854 141.058 151.896 141.046Z"
             stroke="#1D1D1B"
