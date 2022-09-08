@@ -1,0 +1,16 @@
+.PlayerRole {
+    position: fixed;
+    left: 3vw;
+    bottom: 3vw;
+    font-weight: 700;
+    font-size: 2rem;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.PlayerRole__Liberal {
+    color: #73A7BB;
+}
+
+.PlayerRole__Fascist {
+    color: #A74E31;
+}

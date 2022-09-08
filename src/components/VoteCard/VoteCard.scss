@@ -1,0 +1,25 @@
+.VoteCard > div {
+    width: 150px;
+    height: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.VoteCard__text {
+    font-size: 3rem;
+}
+
+.VoteCard__yes {
+    background-color: antiquewhite;
+    color: #000;
+}
+
+.VoteCard__no {
+    color: antiquewhite;
+    background-color: #000;
+}
