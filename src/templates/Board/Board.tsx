@@ -3,28 +3,25 @@ import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
 import './Board.scss';
 import { io } from 'socket.io-client';
 import { UserContext } from '../../themeContext';
+import {useNavigate} from 'react-router-dom';
 
 const socket = io("http://localhost:5555");
-
 function Board() {
+  const navigate = useNavigate();
   const {player,setPlayer} = useContext(UserContext); 
   
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const roomId = urlParams.get('room');
-  const startGame = (players: any) => {
-    const ennemyPlayer = players.querySelector((p: any) => p.socketId != player.socketId);
-    ennemyUsername = ennemyPlayer.username;
-    console.log('start game')
-    /*if (player.host && player.turn) {
-      setTurnMessage('alert-info', 'alert-success', "C'est ton tour de jouer");
-    } else {
-      setTurnMessage('alert-success', 'alert-info', `C'est au tour de <b>${ennemyUsername}</b> de jouer`);
-    }*/
-  };
-  console.log("room has been created", player)
-  let ennemyUsername = ['test'];
   useEffect(() => {
+    if ( player.roomId === "" && !localStorage.getItem("isRoomCreated") ){
+      navigate('/rooms', {replace: true})
+      console.log("Tu rentre ?");
+    }
+    else {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const roomId = urlParams.get('room');
+      const startGame = (players: any) => {
+      console.log('start game')
+      };
       const linkToShare = document.getElementById('link-to-share');
       if (player.username && linkToShare) {
         console.log('has entered function')
@@ -40,19 +37,23 @@ function Board() {
         }
           setPlayer({...player, socketId: socket.id})
           localStorage.setItem('socketId', socket.id)
+          console.log(player);
           socket.emit('playerData', player);
           
         /*document.querySelector("#restart").addEventListener('click', function () {
           restartGame();
         })*/
         
+
         socket.on('join room', (roomId: any) => {
           setPlayer({...player, roomId: roomId})
           localStorage.setItem('roomId', roomId)
           //here put <Link> react router
           linkToShare.innerHTML = `<a href="http://localhost:3001/?room=${roomId}" target="_blank">http://localhost:3001/?room=${roomId}</a>`;
         });
-      
+        socket.on('player join', (player) =>{
+          console.log("piqué des hannetons", player);
+        } )
         socket.on('start game', (players) => {
           console.log(players)
           startGame(players);
@@ -88,6 +89,8 @@ function Board() {
           }
         }*/
     }
+    }
+    
   }, [])
   return (
     <div className="Board">

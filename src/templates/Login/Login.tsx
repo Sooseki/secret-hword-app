@@ -4,17 +4,24 @@ import './Login.scss';
 import {User} from '../../types/types'
 import {useNavigate} from 'react-router-dom';
 import {UserContext} from '../../themeContext';
-
 function Login() {  
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const roomId = urlParams.get('room');
   const {player, setPlayer} = useContext(UserContext);
   const [data, setData] = useState<User>({username:''})
   const navigate = useNavigate();
-
+  console.log(roomId);
   const sendUsername = (e: any) => {
     e.preventDefault()
     setPlayer({...player, username: data.username})
     localStorage.setItem('username', data.username)
-    navigate('/rooms', {replace: true})
+    if ( roomId ){
+      setPlayer( {...player, roomId: roomId})
+      localStorage.setItem('roomId', roomId )
+      navigate('/game?room='+roomId, {replace: true})
+    }
+    navigate('/game', {replace: true})
   }
   const form = {
     inputs: [
