@@ -17,10 +17,8 @@ function Login() {
     e.preventDefault();
     setPlayer({ ...player, username: data.username });
     localStorage.setItem("username", data.username);
-    console.log(data.username);
     if (roomId) {
-      setPlayer({ ...player, roomId: roomId });
-      localStorage.setItem("roomId", roomId);
+      localStorage.setItem("isRoomCreated", 'true')
       navigate("/game?room=" + roomId, { replace: true });
     } else {
       navigate("/game", { replace: true });

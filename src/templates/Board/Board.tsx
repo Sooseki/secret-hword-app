@@ -10,7 +10,7 @@ const socket = io("http://localhost:5555");
 function Board() {
   const navigate = useNavigate();
   const { player, setPlayer } = useContext(UserContext);
-  console.log(player);
+  let tempPlayer = player;
   const [otherPlayers, setOtherPlayers] = useState<Set<Player>>(new Set([]));
   const startGame = (players: any) => {
     console.log("start game");
@@ -33,14 +33,15 @@ function Board() {
         //check if roomId is defined or not
         if (roomId) {
           localStorage.setItem("roomId", roomId);
-          setPlayer({ ...player, roomId: roomId });
+          tempPlayer = { ...player, roomId: roomId }
+          setPlayer(tempPlayer);
         } else {
           setPlayer({ ...player, host: true });
           setPlayer({ ...player, turn: true });
           localStorage.setItem("host", "true");
           localStorage.setItem("turn", "true");
         }
-        socket.emit("joinRoom", player);
+        socket.emit("joinRoom", tempPlayer);
 
         setPlayer({ ...player, socketId: socket.id });
         localStorage.setItem("socketId", socket.id);
@@ -52,6 +53,7 @@ function Board() {
         });
 
         socket.on("player join", (otherPlayer: Player) => {
+          console.log(otherPlayer);
           if (otherPlayer.socketId === player.socketId) {
             return;
           }
@@ -59,6 +61,7 @@ function Board() {
         });
 
         socket.on("logged players", (players: Player[]) => {
+          console.log(otherPlayers);
           players.map(otherplayer => {
             if (otherplayer.socketId != player.socketId) {
               setOtherPlayers(otherPlayers.add(otherplayer));
@@ -78,7 +81,7 @@ function Board() {
         console.log("working", player);
       }
     }
-  }, [otherPlayers]);
+  }, []);
   return (
     <div className="Board">
       {player && player.username && <PlayerIcon player={player}></PlayerIcon>}
@@ -95,9 +98,10 @@ function Board() {
       )}
       <div className="otherPlayer">
         {otherPlayers &&
-          Array.from(otherPlayers).map((player: Player) => {
-            console.log("oui");
-            return <PlayerIcon player={player}></PlayerIcon>;
+          Array.from(otherPlayers).map((player: Player, index) => {
+            return <div key={index}>
+            <PlayerIcon player={player}></PlayerIcon>;
+            </div> 
           })}
       </div>
     </div>
