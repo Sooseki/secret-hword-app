@@ -51,22 +51,21 @@ function Board() {
         });
 
         socket.on("player join", (incommingPlayer: Player) => {
-          console.log("incomming player " + incommingPlayer);
+          // console.log("incomming player " + incommingPlayer.playerId);
 
           if (incommingPlayer.playerId === player.playerId) {
             return;
           }
           let alreadyLoggedIn = false;
           otherPlayers.map(otherPlayer => {
-            if (otherPlayer.playerId === incommingPlayer.playerId) {
+            // console.log(otherPlayer.playerId + "+" + incommingPlayer.playerId);
+            if (otherPlayer.playerId == incommingPlayer.playerId) {
               alreadyLoggedIn = true;
             }
           });
-          console.log("other player 1 " + otherPlayers);
           if (!alreadyLoggedIn) {
             setOtherPlayers(otherPlayers => [...otherPlayers, incommingPlayer]);
           }
-          console.log("other player 2 " + otherPlayers);
         });
 
         socket.on("logged players", (players: Player[]) => {
