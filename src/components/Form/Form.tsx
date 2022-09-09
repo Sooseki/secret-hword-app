@@ -29,7 +29,7 @@ const Form = ({form, setData}: props) => {
       <form onSubmit={form.handleSubmit}>
         {form.inputs.map((key, index, input) => {
           return (
-            <div>
+            <div className='insideForm'>
               <input className='usernameInput' type={form.inputs[index].type} onChange={(e) => updateForm(e, form.inputs[index].name)} placeholder={form.inputs[index].placeholder}/>
             </div>
           );

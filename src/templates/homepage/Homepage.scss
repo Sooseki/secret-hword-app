@@ -12,6 +12,16 @@
     background-size: cover;
     background-repeat: no-repeat;
 
+    .howToPlay {
+        z-index: 3;
+        position: absolute;
+        top: 1%;
+        right: 1%;
+        min-width: 5vw;
+        cursor: pointer;
+        text-align: center;
+    }
+
     .headerContainer {
         position: relative;
         display: flex;

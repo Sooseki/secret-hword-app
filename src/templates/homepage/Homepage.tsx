@@ -7,7 +7,7 @@ import { SvgCards } from "../../assets/svg_tsx/SvgCards"
 
 import Title from "../../assets/imgs/banner.png"
 
-import FacistIcon from "../../assets/svg/facistIcon.svg"
+import bookIcon from "../../assets/svg/book.svg"
 import LiberalIcon from "../../assets/svg/liberalIcon.svg"
 
 export const Homepage = () => {
@@ -17,6 +17,11 @@ export const Homepage = () => {
   const LoginRendder = () => {
     console.log(loginAvailable)
     setLoginAvailable(!loginAvailable)
+  }
+
+  const showRules = () => {
+    console.log(loginAvailable)
+    
   }
 
   const sendUsername = (e: any) => {
@@ -37,13 +42,16 @@ export const Homepage = () => {
 
   return (
     <div className="loginPage">
+      <div className="howToPlay">
+        <img src={bookIcon} alt="bookIcon" onClick={showRules}/>
+      </div>
       <div className="headerContainer">
         <div className="svgContainer">
           <SvgCards size={["25%", "25%"]} />
         </div>
-        <div className="secretWrapperOf">
-          <img src={Title}></img>
-        </div>
+
+        <img src={Title}></img>
+
         <div className="titleContainer">
           <h1>SECRET HITLER</h1>
         </div>
