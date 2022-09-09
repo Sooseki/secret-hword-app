@@ -17,9 +17,23 @@
 .VoteCard__yes {
     background-color: antiquewhite;
     color: #000;
+    transition: transform 0.5s ease-out;
 }
 
 .VoteCard__no {
     color: antiquewhite;
     background-color: #000;
+}
+
+.ChosenVoteCard {
+    transform: translateY(calc(50% - 50vh)) translateX(calc(50% - 45vw))!important;
+    pointer-events: none;
+    .VoteCard__yes {
+        transform: translateX(150px);
+    }
+}
+
+.hideCard {
+    transform: translateY(100%)!important;
+    pointer-events: none;
 }

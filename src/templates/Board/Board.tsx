@@ -9,6 +9,8 @@ import { io } from "socket.io-client";
 import { Player } from "../../types/types";
 import "./Board.scss";
 import OtherPlayers from "../../components/OtherPlayers/OtherPlayers";
+import RulesModal from "../../components/RulesModal/RulesModal";
+import SelectPlayerModal from "../../components/SelectPlayerModal/SelectPlayerModal";
 
 const socket = io("http://localhost:5555");
 
@@ -19,11 +21,26 @@ function Board() {
   const [role, setRole] = useState<string>();
   const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([])
   const [isPresident, setIsPresident] = useState<boolean>(false);
+  const [isChancelor, setIsChancelor] = useState<boolean>(false);
+  const [mustPresidentChose, setMustPresidentChose] = useState<boolean>(false);
+  const [selectedChancelor, setSelectedChancelor] = useState<Player>();
+  const [selectedPresident, setSelectedPresident] = useState<Player>();
+  const [hasVotedPlayers, setHasVotedPlayers] = useState<Array<Player>>([]);
+
+  const handleChancelor = (selectedPlayer:Player) => {
+    setMustPresidentChose(false);
+    socket.emit("selected chancelor", selectedPlayer)
+  }
+  const handleVote = (vote:boolean) => {
+    socket.emit("player vote", {vote, player});
+  }
   const startGame = (president: Player) => {
     console.log("start game");
     setIsGameStarted(true);
+    setSelectedPresident(president);
     if (president.playerId === player.playerId) {
       setIsPresident(true);
+      setMustPresidentChose(true);
     } else {
       setIsPresident(false);
     }
@@ -106,6 +123,16 @@ function Board() {
           setRole(newRole);
         })
 
+        socket.on("selected chancelor", (chancelor:Player) => {
+          setSelectedChancelor(chancelor);
+          setIsChancelor(player.playerId === chancelor.playerId);
+        })
+
+        socket.on("player voted", (player:Player) => {  
+          console.log('this player has voted: ', player);
+          setHasVotedPlayers([...hasVotedPlayers, player])
+        })
+
         console.log("working", player);
       }
     }
@@ -113,15 +140,21 @@ function Board() {
   return (
     <div className="GameBoard">
       {isGameStarted && (
-        <>
-          <VoteCardBlock></VoteCardBlock>
           <BoardComponent></BoardComponent>
-        </>
       )}
+      {isGameStarted && selectedPresident && selectedChancelor &&
+        <VoteCardBlock eventHandler={handleVote}></VoteCardBlock>
+      }
 
       {role && <PlayerRole role={role}></PlayerRole>}
-      {player && player.username && !isGameStarted && (
-        <PlayerIcon player={player}></PlayerIcon>
+      {player && player.username && (
+        <div className="current-player-icon">
+          <PlayerIcon 
+            player={player}
+            isSelectedChancelor={isChancelor}
+            isSelectedPresident={isPresident}
+          ></PlayerIcon>
+        </div>
       )}
 
       {player && player.roomId && !isGameStarted && (
@@ -136,7 +169,22 @@ function Board() {
         </div>
       )}
 
-      {otherPlayers && <OtherPlayers players={otherPlayers}></OtherPlayers>}
+      {otherPlayers && 
+        <OtherPlayers 
+          selectedPresident={selectedPresident} 
+          selectedChancelor={selectedChancelor} 
+          players={otherPlayers}
+          hasVotedPlayers={hasVotedPlayers}
+        ></OtherPlayers>
+      }
+      <RulesModal></RulesModal>
+      {mustPresidentChose &&
+        <SelectPlayerModal 
+          eventHandler={handleChancelor}
+          setSelectedChancelor={setSelectedChancelor} 
+          isPresident={mustPresidentChose}
+          players={otherPlayers}></SelectPlayerModal>
+      }
     </div>
   );
 }

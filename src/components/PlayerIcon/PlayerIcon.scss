@@ -4,6 +4,7 @@ div.playerComponent {
   text-align: center;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 img {
@@ -20,4 +21,18 @@ img {
 h1.playerName {
   color: rgb(49, 49, 49);
   font-size: small;
+}
+
+.playerHasVoted {
+  padding: 0.3rem 1rem;
+  top: 1rem;
+  transform: rotate(-30deg);
+  white-space: nowrap;
+  font-weight: 800;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  background-color: #F5D49E;
+  border: 2px solid #A74E31;
+  position: absolute;
+  
 }

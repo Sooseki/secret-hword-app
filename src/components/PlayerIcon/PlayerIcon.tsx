@@ -3,18 +3,28 @@ import "./PlayerIcon.scss";
 import userImage from "./user.png";
 import { Player } from "../../types/types";
 
-type PlayerIcon = {
-  playerName: string;
-};
+
 
 type props = {
   player: Player;
+  isSelectedChancelor?: boolean
+  isSelectedPresident?: boolean
+  hasVoted?: boolean
 };
-const PlayerIcon = ({ player }: props) => {
+
+const PlayerIcon = ({ player, isSelectedChancelor, isSelectedPresident, hasVoted = false}: props) => {
   return (
     <div className="playerComponent">
       <img src={userImage} alt="user-image"></img>
       <h1 className="playerName">{player.username}</h1>
+      {isSelectedChancelor && 
+        <div className="chancelor-candidate">Chancelor candidate</div>
+      }
+      {isSelectedPresident && 
+        <div className="president-candidate">President candidate</div>
+      }
+      {hasVoted && 
+      <div className="playerHasVoted">Voted !</div>}
     </div>
   );
 };

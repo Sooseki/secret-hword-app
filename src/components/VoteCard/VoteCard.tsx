@@ -3,11 +3,17 @@ import './VoteCard.scss';
 
 interface props {
   isYesCard?: boolean
+  setVote: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
-function VoteCard({isYesCard} : props) {
+const VoteCard = ({isYesCard, setVote} : props) => {
+  const handleClick = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    setVote(isYesCard);
+    e.currentTarget.closest('.VoteCard')?.classList.add('ChosenVoteCard');
+  }
   return (
-    <div className="VoteCard">
+    <div className="VoteCard" onClick={handleClick} >
       { isYesCard ?
         <div className="VoteCard__yes">
           <span className="VoteCard__text">Ja !</span>

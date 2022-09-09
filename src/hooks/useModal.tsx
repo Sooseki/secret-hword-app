@@ -9,7 +9,8 @@ const useModal = () => {
 
     return {
         isModalShowing,
-        toggle
+        toggle,
+        setIsModalShowing
     };
 };
 

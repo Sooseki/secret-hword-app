@@ -43,9 +43,11 @@
     box-shadow: 0 0 10px 0 #0f0a0942 inset, 0 0 10px 4px #0f0a099f;
 }
 .rules-button {
+    position: fixed;
+    right: 0.5rem;
+    top: 0.5rem;
     margin:20px;
     cursor: pointer;
-    position: relative;
     width: 100px;
     height: 40px;
     border-radius: 10px;
@@ -56,5 +58,3 @@
     color: #F5D49E;
     background-color: #A74E31;
 }
-
-

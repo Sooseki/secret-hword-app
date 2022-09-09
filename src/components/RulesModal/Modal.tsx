@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from "react-dom";
-import { isJsxFragment } from "typescript";
-import "./Modal.scss";
 
 interface props {
     hideModal: any
     isModalShowing: boolean
     isToggled: boolean
 }
-const test = document.getElementById('root')!;
+const container = document.getElementById('root')!;
 
 const Modal:any = ({ isModalShowing, hideModal }: props) => 
     isModalShowing ? ReactDOM.createPortal(
@@ -24,7 +22,7 @@ const Modal:any = ({ isModalShowing, hideModal }: props) =>
                     <button type="button" className="close-modal-button" onClick={hideModal}>Understood !</button>
                 </div>
             </div>
-        </>, test
+        </>, container
     ) : null
 
 export default Modal;

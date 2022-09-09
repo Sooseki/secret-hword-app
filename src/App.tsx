@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import Router from "./routes/Routes";
 import { UserContext } from "./themeContext";
+import './style/Modal.scss';
 
 const uniqueId = Date.now();
 const playerId = uniqueId.toString();
