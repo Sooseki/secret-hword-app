@@ -13,6 +13,7 @@ const player: Player = {
   socketId: localStorage.getItem("socketId")
     ? localStorage.getItem("socketId")
     : "",
+  playerId: localStorage.getItem("playerId") ?? "noId",
   turn: localStorage.getItem("turn")
     ? localStorage.getItem("turn") === "true"
     : false,

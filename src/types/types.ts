@@ -8,6 +8,7 @@ export type Player = {
   playedCell: string;
   username: string | null;
   socketId: string | null;
+  playerId: string;
   turn: boolean;
   win: boolean;
 };

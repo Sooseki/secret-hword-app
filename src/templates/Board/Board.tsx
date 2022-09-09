@@ -7,21 +7,20 @@ import { useNavigate, Link } from "react-router-dom";
 import { Player } from "../../types/types";
 
 const socket = io("http://localhost:5555");
+
 function Board() {
   const navigate = useNavigate();
   const { player, setPlayer } = useContext(UserContext);
   let tempPlayer = player;
-  const [otherPlayers, setOtherPlayers] = useState<Set<Player>>(new Set([]));
+  const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([]);
   const startGame = (players: any) => {
     console.log("start game");
   };
 
   useEffect(() => {
-    console.log("player" + player.username);
     // gets in if you're creating room else you're joining room
     if (player.roomId === "" && !localStorage.getItem("isRoomCreated")) {
       navigate("/rooms", { replace: true });
-      console.log("Tu rentre ?");
     } else {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
@@ -33,7 +32,7 @@ function Board() {
         //check if roomId is defined or not
         if (roomId) {
           localStorage.setItem("roomId", roomId);
-          tempPlayer = { ...player, roomId: roomId }
+          tempPlayer = { ...player, roomId: roomId };
           setPlayer(tempPlayer);
         } else {
           setPlayer({ ...player, host: true });
@@ -49,28 +48,38 @@ function Board() {
         socket.on("get room", (roomId: string) => {
           localStorage.setItem("roomId", roomId);
           setPlayer({ ...player, roomId: roomId });
-          console.log("room id" + roomId);
         });
 
-        socket.on("player join", (otherPlayer: Player) => {
-          console.log(otherPlayer);
-          if (otherPlayer.socketId === player.socketId) {
+        socket.on("player join", (incommingPlayer: Player) => {
+          console.log("incomming player " + incommingPlayer);
+
+          if (incommingPlayer.playerId === player.playerId) {
             return;
           }
-          setOtherPlayers(otherPlayers?.add(otherPlayer));
+          let alreadyLoggedIn = false;
+          otherPlayers.map(otherPlayer => {
+            if (otherPlayer.playerId === incommingPlayer.playerId) {
+              alreadyLoggedIn = true;
+            }
+          });
+          console.log("other player 1 " + otherPlayers);
+          if (!alreadyLoggedIn) {
+            setOtherPlayers(otherPlayers => [...otherPlayers, incommingPlayer]);
+          }
+          console.log("other player 2 " + otherPlayers);
         });
 
         socket.on("logged players", (players: Player[]) => {
-          console.log(otherPlayers);
+          setOtherPlayers([]);
+
           players.map(otherplayer => {
-            if (otherplayer.socketId != player.socketId) {
-              setOtherPlayers(otherPlayers.add(otherplayer));
+            if (otherplayer.playerId != player.playerId) {
+              setOtherPlayers(otherPlayers => [...otherPlayers, otherplayer]);
             }
           });
         });
 
         socket.on("start game", players => {
-          console.log("start game");
           startGame(players);
         });
 
@@ -99,9 +108,11 @@ function Board() {
       <div className="otherPlayer">
         {otherPlayers &&
           Array.from(otherPlayers).map((player: Player, index) => {
-            return <div key={index}>
-            <PlayerIcon player={player}></PlayerIcon>;
-            </div> 
+            return (
+              <div key={index}>
+                <PlayerIcon player={player}></PlayerIcon>
+              </div>
+            );
           })}
       </div>
     </div>
