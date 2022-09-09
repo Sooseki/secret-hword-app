@@ -16,14 +16,16 @@ function Board() {
   const navigate = useNavigate();
   const { player, setPlayer } = useContext(UserContext);
   let tempPlayer = player;
-  const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([]);
+  const [role, setRole] = useState<string>();
+  const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([])
+  const [isPresident, setIsPresident] = useState<boolean>(false);
   const startGame = (president: Player) => {
     console.log("start game");
     setIsGameStarted(true);
-    if (president.playerId == player.playerId) {
-      console.log("je suis E.Macron");
+    if (president.playerId === player.playerId) {
+      setIsPresident(true);
     } else {
-      console.log("c'est : " + president.username);
+      setIsPresident(false);
     }
   };
 
@@ -52,10 +54,12 @@ function Board() {
           localStorage.setItem("host", "true");
           localStorage.setItem("turn", "true");
         }
-        socket.emit("joinRoom", tempPlayer);
-
-        setPlayer({ ...player, socketId: socket.id });
+        
+        tempPlayer = { ...tempPlayer, socketId: socket.id};
+        setPlayer(tempPlayer);
         localStorage.setItem("socketId", socket.id);
+        
+        socket.emit("joinRoom", tempPlayer);
 
         socket.on("get room", (roomId: string) => {
           localStorage.setItem("roomId", roomId);
@@ -98,6 +102,10 @@ function Board() {
           //insert secret-hitler logic here
         });
 
+        socket.on("player role", (newRole:string) => {
+          setRole(newRole);
+        })
+
         console.log("working", player);
       }
     }
@@ -111,7 +119,7 @@ function Board() {
         </>
       )}
 
-      {/* <PlayerRole user={player}></PlayerRole> */}
+      {role && <PlayerRole role={role}></PlayerRole>}
       {player && player.username && !isGameStarted && (
         <PlayerIcon player={player}></PlayerIcon>
       )}

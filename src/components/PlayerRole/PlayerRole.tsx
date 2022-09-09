@@ -1,15 +1,14 @@
 import React from 'react'
 import './PlayerRole.scss'
-import { User } from '../../types/types'
 
 interface props {
-    user: User
+    role: string
 }
 
-function PlayerRole({user}: props) {
+function PlayerRole({role}: props) {
   return (
     <div className="PlayerRole">
-        <div className={`PlayerRole__${user.role}`}>{user.role}</div>
+        <div className={`PlayerRole__${role}`}>{role}</div>
     </div>
   );
 }
