@@ -1,10 +1,13 @@
-import React, { useEffect, useContext, useState } from "react";
-import PlayerIcon from "../../components/PlayerIcon/PlayerIcon";
-import "./Board.scss";
-import { io } from "socket.io-client";
-import { UserContext } from "../../themeContext";
+import { useEffect, useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { default as BoardComponent } from "../../components/Board/Board";
+import PlayerIcon from "../../components/PlayerIcon/PlayerIcon";
+import PlayerRole from "../../components/PlayerRole/PlayerRole";
+import VoteCardBlock from "../../components/VoteCardBlock/VoteCardBlock";
+import { UserContext } from "../../themeContext";
+import { io } from "socket.io-client";
 import { Player } from "../../types/types";
+import "./Board.scss";
 
 const socket = io("http://localhost:5555");
 
@@ -91,7 +94,10 @@ function Board() {
     }
   }, []);
   return (
-    <div className="Board">
+    <div className="GameBoard">
+      {/* <PlayerRole user={player}></PlayerRole> */}
+      <VoteCardBlock></VoteCardBlock>
+      <BoardComponent></BoardComponent>
       {player && player.username && <PlayerIcon player={player}></PlayerIcon>}
       {player && player.roomId && (
         <div id="link-to-share">

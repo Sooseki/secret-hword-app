@@ -1,0 +1,11 @@
+.Board {
+    position: fixed;
+    width: 70vw;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    > *:not(:first-child) {
+        margin-top: 1rem;
+    }
+}
