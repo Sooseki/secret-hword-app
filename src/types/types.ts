@@ -4,6 +4,7 @@ export type User = {
 };
 
 export type Player = {
+  vote?: boolean;
   host: boolean;
   roomId: string | null;
   playedCell: string;

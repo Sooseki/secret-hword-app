@@ -25,6 +25,9 @@ const PlayerIcon = ({ player, isSelectedChancelor, isSelectedPresident, hasVoted
       }
       {hasVoted && 
       <div className="playerHasVoted">Voted !</div>}
+      {player && (player.vote === true || player.vote === false) && 
+        <div className="players-votes">{player.vote}</div>
+      }
     </div>
   );
 };

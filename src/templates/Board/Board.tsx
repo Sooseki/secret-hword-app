@@ -26,16 +26,17 @@ function Board() {
   const [selectedChancelor, setSelectedChancelor] = useState<Player>();
   const [selectedPresident, setSelectedPresident] = useState<Player>();
   const [hasVotedPlayers, setHasVotedPlayers] = useState<Array<Player>>([]);
+  //let tempOtherPlayers = otherPlayers;
 
   const handleChancelor = (selectedPlayer:Player) => {
     setMustPresidentChose(false);
     socket.emit("selected chancelor", selectedPlayer)
   }
   const handleVote = (vote:boolean) => {
-    socket.emit("player vote", {vote, player});
+    const hasVotedPlayersNumber = hasVotedPlayers.length + 1;
+    socket.emit("player vote", {vote, player, hasVotedPlayersNumber});
   }
   const startGame = (president: Player) => {
-    console.log("start game");
     setIsGameStarted(true);
     setSelectedPresident(president);
     if (president.playerId === player.playerId) {
@@ -58,8 +59,6 @@ function Board() {
       const roomId = urlParams.get("room");
 
       if (player.username) {
-        console.log("has entered function");
-
         //check if roomId is defined or not
         if (roomId) {
           localStorage.setItem("roomId", roomId);
@@ -84,14 +83,12 @@ function Board() {
         });
 
         socket.on("player join", (incommingPlayer: Player) => {
-          // console.log("incomming player " + incommingPlayer.playerId);
 
           if (incommingPlayer.playerId === player.playerId) {
             return;
           }
           let alreadyLoggedIn = false;
           otherPlayers.map(otherPlayer => {
-            // console.log(otherPlayer.playerId + "+" + incommingPlayer.playerId);
             if (otherPlayer.playerId == incommingPlayer.playerId) {
               alreadyLoggedIn = true;
             }
@@ -102,8 +99,6 @@ function Board() {
         });
 
         socket.on("logged players", (players: Player[]) => {
-          setOtherPlayers([]);
-
           players.map(otherplayer => {
             if (otherplayer.playerId != player.playerId) {
               setOtherPlayers(otherPlayers => [...otherPlayers, otherplayer]);
@@ -129,11 +124,40 @@ function Board() {
         })
 
         socket.on("player voted", (player:Player) => {  
-          console.log('this player has voted: ', player);
-          setHasVotedPlayers([...hasVotedPlayers, player])
+          setHasVotedPlayers(hasVotedPlayers => [...hasVotedPlayers, player]);
         })
 
-        console.log("working", player);
+        socket.on("players votes", (players:Player[]) => {
+          console.log("players",players)
+          players.map((p) => {
+            console.log(p)
+            console.log(otherPlayers)
+            otherPlayers.map((otherplayer, index) => {
+              console.log(otherplayer)
+              console.log(p)
+              console.log(index)
+              if (p.playerId === otherplayer.playerId) {
+                console.log("has entered p")
+                let tempOtherPlayers = otherPlayers;
+                tempOtherPlayers[index].vote=p.vote;
+                setOtherPlayers(tempOtherPlayers);
+                console.log("this is tempOtherPlayers", tempOtherPlayers)
+              }
+            })
+          })
+          /*players.forEach(otherplayer => {
+            console.log("this is other player playerID : ", otherplayer.playerId)
+            console.log("this is player playerID : ", player.playerId)
+            if (otherplayer.playerId !== player.playerId) {
+              console.log("hasentered if")
+              tempOtherPlayers.push(player);
+              console.log("tempOtherplayers : ", tempOtherPlayers)
+
+              setOtherPlayers(tempOtherPlayers);
+            }
+          });*/
+          //console.log("this is otherplayers : ", tempOtherPlayers)
+        })
       }
     }
   }, []);
