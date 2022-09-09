@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
-
 import Form from "../../components/Form/Form"
-import "./Login.scss"
+import "./Homepage.scss"
 
 import { SvgCards } from "../../assets/svg_tsx/SvgCards"
 
@@ -11,11 +10,13 @@ import Title from "../../assets/imgs/banner.png"
 import FacistIcon from "../../assets/svg/facistIcon.svg"
 import LiberalIcon from "../../assets/svg/liberalIcon.svg"
 
-export const Login = () => {
+export const Homepage = () => {
   const [data, setData] = useState({})
-  let loginAvailable = false
+  const [loginAvailable, setLoginAvailable] = useState(false)
+
   const LoginRendder = () => {
-    loginAvailable =! loginAvailable
+    console.log(loginAvailable)
+    setLoginAvailable(!loginAvailable)
   }
 
   const sendUsername = (e: any) => {
@@ -43,16 +44,17 @@ export const Login = () => {
         <div className="secretWrapperOf">
           <img src={Title}></img>
         </div>
-        
         <div className="titleContainer">
           <h1>SECRET HITLER</h1>
         </div>
         <div className="playContainer">
-          <h2 onClick={LoginRendder}>PLAY</h2>
+          {loginAvailable ? (
+            <Form form={form} setData={setData} />
+          ) : (
+            <h2 onClick={LoginRendder}>PLAY</h2>
+          )}
         </div>
       </div>
     </div>
   )
 }
-
-export default Login

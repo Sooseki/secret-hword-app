@@ -27,7 +27,7 @@ export const SvgCards = ({ size }: Props) => {
   //   console.log("yeet")
   // }
 
-  console.log(globalCoords.x)
+  // console.log(globalCoords.x)
   return (
     <>
       <svg

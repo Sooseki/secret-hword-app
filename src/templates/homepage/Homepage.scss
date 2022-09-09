@@ -44,6 +44,7 @@
         }
 
         .playContainer {
+            max-height: 10vh;
             z-index: 4;
             padding: 1rem 4rem;
             display: flex;
@@ -51,7 +52,7 @@
             font-size: 4rem;
             font-weight: bolder;
             z-index: 2;
-           
+            // background-color: yellow;
 
             h2 {
                 cursor: pointer;
