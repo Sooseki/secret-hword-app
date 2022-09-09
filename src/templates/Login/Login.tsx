@@ -2,9 +2,12 @@ import React, { useState } from "react"
 import Form from "../../components/Form/Form"
 import "./Login.scss"
 
-import { SvgCards } from "../../assets/SvgCards"
+import { SvgCards } from "../../assets/svg_tsx/SvgCards"
+
 import Title from "../../assets/imgs/banner.png"
-import PlayButton from "../../assets/imgs/testPlay.png"
+
+import FacistIcon from "../../assets/svg/facistIcon.svg"
+import LiberalIcon from "../../assets/svg/liberalIcon.svg"
 
 export const Login = () => {
   const [data, setData] = useState({})
@@ -27,16 +30,23 @@ export const Login = () => {
 
   return (
     <div className="loginPage">
-      <div className="bannerContainer">
+      <div className="headerContainer">
         <div className="svgContainer">
           <SvgCards size={["25%", "25%"]} />
         </div>
+        <img src={Title}></img>
         <div className="titleContainer">
           <h1>SECRET HITLER</h1>
         </div>
-        <img src={Title} />
+        <div className="littleSvgContainer">
+          <div className="liberalIcon">
+            <img src={LiberalIcon}></img>
+          </div>
+          <div className="facistIcon">
+            <img src={FacistIcon}></img>
+          </div>
+        </div>
         <div className="playContainer">
-          {" "}
           <h2>PLAY</h2>
         </div>
       </div>
