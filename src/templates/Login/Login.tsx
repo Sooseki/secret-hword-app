@@ -10,7 +10,7 @@ function Login() {
   const urlParams = new URLSearchParams(queryString);
   const roomId = urlParams.get("room");
   const { player, setPlayer } = useContext(UserContext);
-  const [data, setData] = useState<User>({ username: "" });
+  const [data, setData] = useState<User>({ username: "", role: "" });
   const navigate = useNavigate();
 
   const sendUsername = (e: any) => {

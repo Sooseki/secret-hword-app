@@ -8,6 +8,7 @@ import { UserContext } from "../../themeContext";
 import { io } from "socket.io-client";
 import { Player } from "../../types/types";
 import "./Board.scss";
+import OtherPlayers from "../../components/OtherPlayers/OtherPlayers";
 
 const socket = io("http://localhost:5555");
 
@@ -16,9 +17,17 @@ function Board() {
   const { player, setPlayer } = useContext(UserContext);
   let tempPlayer = player;
   const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([]);
-  const startGame = (players: any) => {
+  const startGame = (president: Player) => {
     console.log("start game");
+    setIsGameStarted(true);
+    if (president.playerId == player.playerId) {
+      console.log("je suis E.Macron");
+    } else {
+      console.log("c'est : " + president.username);
+    }
   };
+
+  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
 
   useEffect(() => {
     // gets in if you're creating room else you're joining room
@@ -81,8 +90,8 @@ function Board() {
           });
         });
 
-        socket.on("start game", players => {
-          startGame(players);
+        socket.on("start game", president => {
+          startGame(president);
         });
 
         socket.on("play", ennemyPlayer => {
@@ -95,11 +104,19 @@ function Board() {
   }, []);
   return (
     <div className="GameBoard">
+      {isGameStarted && (
+        <>
+          <VoteCardBlock></VoteCardBlock>
+          <BoardComponent></BoardComponent>
+        </>
+      )}
+
       {/* <PlayerRole user={player}></PlayerRole> */}
-      <VoteCardBlock></VoteCardBlock>
-      <BoardComponent></BoardComponent>
-      {player && player.username && <PlayerIcon player={player}></PlayerIcon>}
-      {player && player.roomId && (
+      {player && player.username && !isGameStarted && (
+        <PlayerIcon player={player}></PlayerIcon>
+      )}
+
+      {player && player.roomId && !isGameStarted && (
         <div id="link-to-share">
           <Link
             to={{
@@ -110,16 +127,8 @@ function Board() {
           </Link>
         </div>
       )}
-      <div className="otherPlayer">
-        {otherPlayers &&
-          Array.from(otherPlayers).map((player: Player, index) => {
-            return (
-              <div key={index}>
-                <PlayerIcon player={player}></PlayerIcon>
-              </div>
-            );
-          })}
-      </div>
+
+      {otherPlayers && <OtherPlayers players={otherPlayers}></OtherPlayers>}
     </div>
   );
 }
