@@ -11,7 +11,7 @@ const VoteResultModal = ({result}:props) => {
     
   return (
     <div className="VoteResultModal">
-      <Modal result={result}></Modal>
+      <Modal result={result}/>
     </div>
   );
 }

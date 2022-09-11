@@ -12,7 +12,7 @@ const SelectCardModal = ({cards, eventHandler}:props) => {
     
   return (
     <div className="SelectCardModal">
-      <Modal eventHandler={eventHandler} cards={cards}></Modal>
+      <Modal eventHandler={eventHandler} cards={cards}/>
     </div>
   );
 }

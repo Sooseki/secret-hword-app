@@ -1,31 +1,35 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from "react-dom";
+import fascistCard from "../../images/fascistCard.svg";
+import liberalCard from "../../images/liberalCard.svg";
+// type Card = [liberal:string]
 
 interface props {
-    hideModal: any
-    isModalShowing: boolean
     isToggled: boolean
     cards: Array<string>
     eventHandler: (selectedCard: string) => void
 }
+interface cards{
+     [key: string]: string;
+}
+const svgCards:cards = {"liberal":liberalCard, 'fascist':fascistCard};
 const container = document.getElementById('root')!;
 
-const Modal:any = ({ isModalShowing, hideModal, cards, eventHandler }: props) => 
-    isModalShowing ? ReactDOM.createPortal(
+const Modal:any = ({  cards, eventHandler }: props) => 
+    ReactDOM.createPortal(
         <>
             <div className="modal">
                 <div className="modal-content">
                     {cards.map((card) => {
                         return (
-                            <div onClick={() => eventHandler(card)} className="cards">
-                                <img src={"../../images/" + card + "Card.svg"}/>
+                            <div onClick={() => eventHandler(card)} className="law-card">  
+                              <img src={svgCards[card]} alt="" />
                             </div>
                         )
                     })}
-                    <button type="button" className="close-modal-button" onClick={hideModal}>Understood !</button>
                 </div>
             </div>
         </>, container
-    ) : null
+    )
 
 export default Modal;

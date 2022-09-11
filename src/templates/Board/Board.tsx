@@ -33,7 +33,8 @@ function Board() {
   const [drawnLawCards, setDrawnLawCards] = useState<Array<string>>();
   const [countLibCards, setCountLibCards] = useState<number>(0);
   const [countFascCards, setCountFascCards] = useState<number>(0);
-  
+  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
+
   const selectLawCards = (selectedCard:string) => {
     const selectedCards = [];
     selectedCards.push(selectedCard);
@@ -64,7 +65,14 @@ function Board() {
     }
   };
 
-  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log("Cartes piochées",drawnLawCards);
+    console.log( drawnLawCards && isPresident && drawnLawCards.length === 3)
+  },[drawnLawCards, setDrawnLawCards])
+  useEffect(() => {
+    console.log(hasVotePassed);
+  },[setHasVotePassed, hasVotePassed])
 
   useEffect(() => {
     // gets in if you're creating room else you're joining room
@@ -159,14 +167,14 @@ function Board() {
         })
         socket.on("votes results", (votePassed: boolean) => {
           setHasVotePassed(votePassed);
-          if (votePassed) { 
-            setTimeout(() => {
-              setHasVotePassed(undefined);
+          setTimeout(() => {
+            setHasVotePassed(undefined);
+            if (votePassed) { 
               socket.emit("get cards");
-            }, 3000)
-          } else {
-            //relancer un tour de jeu
-          }
+            } else {
+              //relancer un tour de jeu
+            } 
+          }, 10000)
           console.log("vote results : ", votePassed);
         })
         socket.on("president cards", (cards: Array<string>) => {

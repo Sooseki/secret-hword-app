@@ -13,7 +13,6 @@ type props = {
 };
 
 const PlayerIcon = ({ player, isSelectedChancelor, isSelectedPresident, hasVoted = false}: props) => {
-  console.log("inPlayerIcon");
   return (
     <div className="playerComponent">
       <img src={userImage} alt="user-image"></img>
