@@ -34,7 +34,7 @@ const Form = ({form, setData}: props) => {
             </div>
           );
         })}
-        <input type="submit" className="submit" value="Valider" />
+        <input  type="submit" className="submit" value="VALIDER" />
       </form>
     </div>
   )
