@@ -12,6 +12,13 @@ function Login() {
   const { player, setPlayer } = useContext(UserContext);
   const [data, setData] = useState<User>({ username: "", role: "" });
   const navigate = useNavigate();
+import Title from "../../assets/imgs/banner.png"
+import { SvgCards } from "../../assets/svg_tsx/SvgCards"
+import FacistIcon from "../../assets/svg/facistIcon.svg"
+import LiberalIcon from "../../assets/svg/liberalIcon.svg"
+  const LoginRendder = () => {
+    loginAvailable =! loginAvailable
+  }
 
   const sendUsername = (e: any) => {
     e.preventDefault();
@@ -37,10 +44,24 @@ function Login() {
   };
 
   return (
-    <div className="Login">
-      <Form form={form} setData={setData} />
+    <div className="loginPage">
+      <div className="headerContainer">
+        <div className="svgContainer">
+          <SvgCards size={["25%", "25%"]} />
+        </div>
+        <div className="secretWrapperOf">
+          <img src={Title}></img>
+        </div>
+        
+        <div className="titleContainer">
+          <h1>SECRET HITLER</h1>
+        </div>
+        <div className="playContainer">
+          <h2 onClick={LoginRendder}>PLAY</h2>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
 export default Login;

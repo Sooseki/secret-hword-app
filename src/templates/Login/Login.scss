@@ -1,0 +1,83 @@
+.loginPage {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+
+    background-color: #db653e;
+    background-image: url("../../assets/imgs/bg_1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .headerContainer {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        img {
+            width: 100vw;
+            max-width: 100vw;
+        }
+
+        .svgContainer {
+            position: absolute;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            top: -35%;
+        }
+        .titleContainer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top: calc(50% - 6.5rem);
+            transform-origin: center;
+            transform: rotate(7.15deg);
+            font-weight: 900;
+            color: #a74e31;
+            font-size: 7rem;
+        }
+
+        .playContainer {
+            z-index: 4;
+            padding: 1rem 4rem;
+            display: flex;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: bolder;
+            z-index: 2;
+           
+
+            h2 {
+                cursor: pointer;
+                animation: playColorAnim_out 0.4s ease forwards;
+            }
+            &:hover h2 {
+                animation: playColorAnim_in 0.4s ease forwards;
+            }
+        }
+    }
+}
+
+@keyframes playColorAnim_in {
+    0% {
+        color: #823b23;
+    }
+    100% {
+        color: #f5d49e;
+    }
+}
+
+@keyframes playColorAnim_out {
+    0% {
+        color: #f5d49e;
+    }
+    100% {
+        color: #823b23;
+    }
+}
