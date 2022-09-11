@@ -3,7 +3,6 @@ import { Route, Routes, BrowserRouter } from "react-router-dom"
 import Login from '../templates/Login/Login'
 import Room from '../templates/Room/Room'
 import Board from '../templates/Board/Board'
-import { Homepage } from '../templates/homepage/Homepage'
 
 
 const Router = () => {
