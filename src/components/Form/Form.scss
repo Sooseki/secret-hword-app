@@ -3,9 +3,10 @@
     form {
         height: 100%;
         display: flex;
-        flex-direction: column;
+
         justify-content: space-around;
         align-items: center;
+        flex-direction: column;
         padding: 0px;
     }
     .insideForm {
@@ -37,7 +38,7 @@
     cursor: pointer;
     color: black;
     animation: playColorAnim_out_button 0.4s ease forwards;
-    &:hover{
+    &:hover {
         animation: playColorAnim_in_button 0.4s ease forwards;
     }
 }
@@ -51,7 +52,7 @@
     }
 }
 
-@keyframes playColorAnim_out_button  {
+@keyframes playColorAnim_out_button {
     0% {
         color: #f5d49e;
     }
