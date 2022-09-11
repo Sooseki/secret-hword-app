@@ -20,14 +20,19 @@ function Board() {
   let tempPlayer = player;
   const [role, setRole] = useState<string>();
   const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([])
+  let tempOtherPlayers = otherPlayers ;
   const [isPresident, setIsPresident] = useState<boolean>(false);
   const [isChancelor, setIsChancelor] = useState<boolean>(false);
   const [mustPresidentChose, setMustPresidentChose] = useState<boolean>(false);
   const [selectedChancelor, setSelectedChancelor] = useState<Player>();
   const [selectedPresident, setSelectedPresident] = useState<Player>();
   const [hasVotedPlayers, setHasVotedPlayers] = useState<Array<Player>>([]);
-  //let tempOtherPlayers = otherPlayers;
-
+  
+  useEffect( () => {console.log("Test",tempOtherPlayers)}, [otherPlayers, setOtherPlayers, tempOtherPlayers] )
+const updateOtherPlayersVotes = ( )=>{
+  setOtherPlayers(tempOtherPlayers);
+  console.log(tempOtherPlayers);
+}
   const handleChancelor = (selectedPlayer:Player) => {
     setMustPresidentChose(false);
     socket.emit("selected chancelor", selectedPlayer)
@@ -94,14 +99,16 @@ function Board() {
             }
           });
           if (!alreadyLoggedIn) {
-            setOtherPlayers(otherPlayers => [...otherPlayers, incommingPlayer]);
+            tempOtherPlayers = [...tempOtherPlayers, incommingPlayer]
+            setOtherPlayers(tempOtherPlayers);
           }
         });
 
         socket.on("logged players", (players: Player[]) => {
           players.map(otherplayer => {
             if (otherplayer.playerId != player.playerId) {
-              setOtherPlayers(otherPlayers => [...otherPlayers, otherplayer]);
+              tempOtherPlayers = [...tempOtherPlayers, otherplayer]
+              setOtherPlayers(tempOtherPlayers);
             }
           });
         });
@@ -128,19 +135,12 @@ function Board() {
         })
 
         socket.on("players votes", (players:Player[]) => {
-          console.log("players",players)
           players.map((p) => {
-            console.log(p)
-            console.log(otherPlayers)
-            otherPlayers.map((otherplayer, index) => {
-              console.log(otherplayer)
-              console.log(p)
-              console.log(index)
+            tempOtherPlayers.map((otherplayer, index) => {
               if (p.playerId === otherplayer.playerId) {
-                console.log("has entered p")
-                let tempOtherPlayers = otherPlayers;
                 tempOtherPlayers[index].vote=p.vote;
-                setOtherPlayers(tempOtherPlayers);
+                // setOtherPlayers(tempOtherPlayers);
+                updateOtherPlayersVotes();
                 console.log("this is tempOtherPlayers", tempOtherPlayers)
               }
             })
@@ -193,7 +193,7 @@ function Board() {
         </div>
       )}
 
-      {otherPlayers && 
+      {otherPlayers &&  
         <OtherPlayers 
           selectedPresident={selectedPresident} 
           selectedChancelor={selectedChancelor} 
