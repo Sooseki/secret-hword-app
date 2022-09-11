@@ -14,6 +14,7 @@ import SelectPlayerModal from "../../components/SelectPlayerModal/SelectPlayerMo
 import VoteResultModal from "../../components/VoteResultModal/VoteResultModal";
 import SelectCardModal from "../../components/SelectCardModal/SelectCardModal";
 import VictoryModal from "../../components/VictoryModal/VictoryModal";
+import LinkToShare from "../../components/LinkToShare/LinkToShare";
 
 
 const socket = io("http://localhost:5555");
@@ -252,13 +253,7 @@ function Board() {
 
       {player && player.roomId && !isGameStarted && (
         <div id="link-to-share">
-          <Link
-            to={{
-              pathname: "/?room=" + player.roomId
-            }}
-          >
-            http://localhost:3001/?room={player.roomId}
-          </Link>
+          <LinkToShare player={player}></LinkToShare>
         </div>
       )}
 
