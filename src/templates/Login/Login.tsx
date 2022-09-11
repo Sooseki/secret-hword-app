@@ -8,12 +8,15 @@ import Title from "../../assets/imgs/banner.png"
 import { SvgCards } from "../../assets/svg_tsx/SvgCards"
 import FacistIcon from "../../assets/svg/facistIcon.svg"
 import LiberalIcon from "../../assets/svg/liberalIcon.svg"
+import {Rules} from "../../components/Rules/index"
+import bookIcon from "../../assets/svg/book.svg"
 
 function Login() {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const roomId = urlParams.get("room")
   const [loginAvailable, setLoginAvailable] = useState(false)
+  const [displayRules, setDisplayRules] = useState(false)
   const { player, setPlayer } = useContext(UserContext)
   const [data, setData] = useState<User>({ username: "", role: "" })
   const navigate = useNavigate()
@@ -21,6 +24,9 @@ function Login() {
   const LoginRendder = () => {
     console.log(loginAvailable)
     setLoginAvailable(!loginAvailable)
+  }
+  const showRules = () => {
+    setDisplayRules(!displayRules)
   }
 
   const sendUsername = (e: any) => {
@@ -48,6 +54,10 @@ function Login() {
 
   return (
     <div className="loginPage">
+      {displayRules && <Rules />}
+      <div className="howToPlay">
+        <img src={bookIcon} alt="bookIcon" onClick={showRules} />
+      </div>
       <div className="headerContainer">
         <div className="svgContainer">
           <SvgCards size={["25%", "25%"]} />
