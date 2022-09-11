@@ -16,7 +16,7 @@ import SelectCardModal from "../../components/SelectCardModal/SelectCardModal";
 import VictoryModal from "../../components/VictoryModal/VictoryModal";
 
 
-const socket = io("http://localhost:5555");
+const socket = io("https://secret-hword.herokuapp.com/");
 
 function Board() {
   const navigate = useNavigate();
