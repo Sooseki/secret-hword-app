@@ -1,5 +1,6 @@
 .SelectCardModal {
     .modal-content{
+    padding: 3rem;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -9,10 +10,16 @@
     }
 }
 
-.law-card{
+.law-card {
    img{
     width: 100%;
-   } 
-   width: 200px;
+   }
+   transition: transform 0.3s ease-in-out;
+   width: 150px;
    height: auto;
+   cursor: pointer;
+}
+.selected-law-card {
+    transform: translateY(-3rem);
+    pointer-events: none;
 }

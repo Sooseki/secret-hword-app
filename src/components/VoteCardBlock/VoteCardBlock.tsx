@@ -13,6 +13,7 @@ const VoteCardBlock = ({eventHandler}:props) => {
     console.log('this is document query selector : ', document.querySelector('.ChosenVoteCard'));
     if (playerVote === true || playerVote === false) eventHandler(playerVote);
     if (document.querySelector('.ChosenVoteCard')) document.querySelector('.VoteCard:not(.ChosenVoteCard)')?.classList.add('hideCard');
+    setPlayerVote(undefined);
   }, [playerVote, setPlayerVote])
   return (
     <div className="VoteCardBlock">

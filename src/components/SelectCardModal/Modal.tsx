@@ -15,21 +15,29 @@ interface cards{
 const svgCards:cards = {"liberal":liberalCard, 'fascist':fascistCard};
 const container = document.getElementById('root')!;
 
-const Modal:any = ({  cards, eventHandler }: props) => 
-    ReactDOM.createPortal(
-        <>
-            <div className="modal">
-                <div className="modal-content">
-                    {cards.map((card) => {
-                        return (
-                            <div onClick={() => eventHandler(card)} className="law-card">  
-                              <img src={svgCards[card]} alt="" />
-                            </div>
-                        )
-                    })}
+const Modal:any = ({ cards, eventHandler }: props) => {
+    const handleOnclick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, card: string) => {
+        e.preventDefault();
+        eventHandler(card);
+        e.currentTarget.closest(".law-card")?.classList.add("selected-law-card")
+    }
+    return (
+        ReactDOM.createPortal(
+            <>
+                <div className="SelectCardModal modal">
+                    <div className="modal-content">
+                        {cards.map((card) => {
+                            return (
+                                <div onClick={(e) => handleOnclick(e, card)} className="law-card">  
+                                <img src={svgCards[card]} alt="" />
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
-            </div>
-        </>, container
+            </>, container
+        )
     )
+}
 
 export default Modal;

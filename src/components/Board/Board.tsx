@@ -3,11 +3,16 @@ import FascBoard from '../FascBoard/FascBoard';
 import LibBoard from '../LibBoard/LibBoard';
 import './Board.scss';
 
-function Board() {
+interface props {
+  countLibCards: number
+  countFascCards: number
+}
+
+function Board({countLibCards,countFascCards}:props) {
   return (
     <div className="Board">
-        <FascBoard></FascBoard>
-        <LibBoard></LibBoard>
+        <FascBoard countFascCards={countFascCards}></FascBoard>
+        <LibBoard countLibCards={countLibCards}></LibBoard>
     </div>
   );
 }
