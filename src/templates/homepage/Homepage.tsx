@@ -1,6 +1,7 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 import Form from "../../components/Form/Form"
+import { Rules } from "../../components/Rules"
 import "./Homepage.scss"
 
 import { SvgCards } from "../../assets/svg_tsx/SvgCards"
@@ -13,6 +14,7 @@ import LiberalIcon from "../../assets/svg/liberalIcon.svg"
 export const Homepage = () => {
   const [data, setData] = useState({})
   const [loginAvailable, setLoginAvailable] = useState(false)
+  const [displayRules, setDisplayRules] = useState(false)
 
   const LoginRendder = () => {
     console.log(loginAvailable)
@@ -20,8 +22,7 @@ export const Homepage = () => {
   }
 
   const showRules = () => {
-    console.log(loginAvailable)
-    
+    setDisplayRules(!displayRules)
   }
 
   const sendUsername = (e: any) => {
@@ -42,8 +43,9 @@ export const Homepage = () => {
 
   return (
     <div className="loginPage">
+      {displayRules && <Rules />}
       <div className="howToPlay">
-        <img src={bookIcon} alt="bookIcon" onClick={showRules}/>
+        <img src={bookIcon} alt="bookIcon" onClick={showRules} />
       </div>
       <div className="headerContainer">
         <div className="svgContainer">
