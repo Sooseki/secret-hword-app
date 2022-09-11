@@ -11,6 +11,8 @@ import "./Board.scss";
 import OtherPlayers from "../../components/OtherPlayers/OtherPlayers";
 import RulesModal from "../../components/RulesModal/RulesModal";
 import SelectPlayerModal from "../../components/SelectPlayerModal/SelectPlayerModal";
+import VoteResultModal from "../../components/VoteResultModal/VoteResultModal";
+import SelectCardModal from "../../components/SelectCardModal/SelectCardModal";
 
 const socket = io("http://localhost:5555");
 
@@ -27,12 +29,22 @@ function Board() {
   const [selectedChancelor, setSelectedChancelor] = useState<Player>();
   const [selectedPresident, setSelectedPresident] = useState<Player>();
   const [hasVotedPlayers, setHasVotedPlayers] = useState<Array<Player>>([]);
+  const [hasVotePassed, setHasVotePassed] = useState<boolean>();
+  const [drawnLawCards, setDrawnLawCards] = useState<Array<string>>();
+  const [countLibCards, setCountLibCards] = useState<number>(0);
+  const [countFascCards, setCountFascCards] = useState<number>(0);
   
-  useEffect( () => {console.log("Test",tempOtherPlayers)}, [otherPlayers, setOtherPlayers, tempOtherPlayers] )
-const updateOtherPlayersVotes = ( )=>{
-  setOtherPlayers(tempOtherPlayers);
-  console.log(tempOtherPlayers);
-}
+  const selectLawCards = (selectedCard:string) => {
+    const selectedCards = [];
+    selectedCards.push(selectedCard);
+    if (isPresident && selectedCards.length === 2) {
+      socket.emit("president selected cards", selectedCards);
+    }
+    if (isChancelor && selectedCards.length === 1) {
+      socket.emit("chancelor selected card", selectedCard);
+    }
+  }
+
   const handleChancelor = (selectedPlayer:Player) => {
     setMustPresidentChose(false);
     socket.emit("selected chancelor", selectedPlayer)
@@ -134,29 +146,46 @@ const updateOtherPlayersVotes = ( )=>{
           setHasVotedPlayers(hasVotedPlayers => [...hasVotedPlayers, player]);
         })
 
-        socket.on("players votes", (players:Player[]) => {
+        socket.on("players votes", (players: Player[]) => {
           players.map((p) => {
             tempOtherPlayers.map((otherplayer, index) => {
               if (p.playerId === otherplayer.playerId) {
                 tempOtherPlayers[index].vote=p.vote;
                 // setOtherPlayers(tempOtherPlayers);
-                updateOtherPlayersVotes();
                 console.log("this is tempOtherPlayers", tempOtherPlayers)
               }
             })
           })
-          /*players.forEach(otherplayer => {
-            console.log("this is other player playerID : ", otherplayer.playerId)
-            console.log("this is player playerID : ", player.playerId)
-            if (otherplayer.playerId !== player.playerId) {
-              console.log("hasentered if")
-              tempOtherPlayers.push(player);
-              console.log("tempOtherplayers : ", tempOtherPlayers)
-
-              setOtherPlayers(tempOtherPlayers);
-            }
-          });*/
-          //console.log("this is otherplayers : ", tempOtherPlayers)
+        })
+        socket.on("votes results", (votePassed: boolean) => {
+          setHasVotePassed(votePassed);
+          if (votePassed) { 
+            setTimeout(() => {
+              setHasVotePassed(undefined);
+              socket.emit("get cards");
+            }, 3000)
+          } else {
+            //relancer un tour de jeu
+          }
+          console.log("vote results : ", votePassed);
+        })
+        socket.on("president cards", (cards: Array<string>) => {
+          setDrawnLawCards(cards);
+          console.log("president cards : ", cards);
+        })
+        socket.on("chancelor cards", (cards: Array<string>) => {
+          setDrawnLawCards(cards);
+          console.log("chancelor cards : ", cards);
+        })
+        socket.on("selected law card", (card: string) => {
+          if (card === "liberal") {
+            setCountLibCards(countLibCards + 1);
+          } else {
+            setCountFascCards(countFascCards + 1);
+          }
+          console.log("selected law card : ", card);
+          console.log("selected countLibCards : ", countLibCards);
+          console.log("selected countFascCards: ", countFascCards);
         })
       }
     }
@@ -208,6 +237,12 @@ const updateOtherPlayersVotes = ( )=>{
           setSelectedChancelor={setSelectedChancelor} 
           isPresident={mustPresidentChose}
           players={otherPlayers}></SelectPlayerModal>
+      }
+      {(hasVotePassed === false || hasVotePassed === true) &&
+        <VoteResultModal result={hasVotePassed}></VoteResultModal>
+      }
+      {drawnLawCards && ((isPresident && drawnLawCards.length === 3) || (isChancelor && drawnLawCards.length === 2)) &&
+        <SelectCardModal eventHandler={selectLawCards} cards={drawnLawCards}></SelectCardModal>
       }
     </div>
   );
