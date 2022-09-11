@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./App.scss";
 import Router from "./routes/Routes";
 import { UserContext } from "./themeContext";
 import './style/Modal.scss';

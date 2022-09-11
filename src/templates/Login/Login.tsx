@@ -4,6 +4,10 @@ import "./Login.scss";
 import { User } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../themeContext";
+import Title from "../../assets/imgs/banner.png"
+import { SvgCards } from "../../assets/svg_tsx/SvgCards"
+import FacistIcon from "../../assets/svg/facistIcon.svg"
+import LiberalIcon from "../../assets/svg/liberalIcon.svg"
 
 function Login() {
   const queryString = window.location.search;
@@ -12,10 +16,8 @@ function Login() {
   const { player, setPlayer } = useContext(UserContext);
   const [data, setData] = useState<User>({ username: "", role: "" });
   const navigate = useNavigate();
-import Title from "../../assets/imgs/banner.png"
-import { SvgCards } from "../../assets/svg_tsx/SvgCards"
-import FacistIcon from "../../assets/svg/facistIcon.svg"
-import LiberalIcon from "../../assets/svg/liberalIcon.svg"
+
+  let loginAvailable = false
   const LoginRendder = () => {
     loginAvailable =! loginAvailable
   }
