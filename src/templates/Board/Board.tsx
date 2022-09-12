@@ -20,7 +20,7 @@ import { Rules } from "../../components/Rules"
 import bookIcon from "../../assets/svg/book.svg"
 import Title from "../../assets/imgs/banner.png"
 
-const socket = io("http://localhost:5555")
+const socket = io("https://secret-hword.herokuapp.com/")
 
 const Board = () => {
   const navigate = useNavigate();
