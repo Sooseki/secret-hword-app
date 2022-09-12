@@ -1,4 +1,5 @@
 import { Player } from "../../types/types";
+import "./LinkToShare.scss";
 
 interface props {
     player: Player;
@@ -11,7 +12,7 @@ const LinkToShare = ({player}: props) => {
     }
     return (
         <div className="copy-to-clipboard">
-            <button onClick={copyToClipboard} className="copy-to-clipboard-button"/>
+            <button onClick={copyToClipboard} className="copy-to-clipboard-button">Copy this link to play with friend !</button>
         </div>
     );
 }
