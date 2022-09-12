@@ -8,7 +8,6 @@ import PlayerIcon from "../../components/PlayerIcon/PlayerIcon";
 import PlayerRole from "../../components/PlayerRole/PlayerRole";
 import VoteCardBlock from "../../components/VoteCardBlock/VoteCardBlock";
 import OtherPlayers from "../../components/OtherPlayers/OtherPlayers";
-import RulesModal from "../../components/RulesModal/RulesModal";
 import SelectPlayerModal from "../../components/SelectPlayerModal/SelectPlayerModal";
 import VoteResultModal from "../../components/VoteResultModal/VoteResultModal";
 import SelectCardModal from "../../components/SelectCardModal/SelectCardModal";
@@ -170,7 +169,7 @@ const Board = () => {
         </div>
       )}
 
-      {otherPlayers && (
+      {otherPlayers && 
         <OtherPlayers
           selectedPresident={selectedPresident}
           selectedChancelor={selectedChancelor}
@@ -198,7 +197,6 @@ const Board = () => {
       <PlayerRole socket={socket}></PlayerRole>
       { isGameStarted && <SelectCardModal isPresident={isPresident} isChancelor={isChancelor} socket={socket}></SelectCardModal> }
       <VictoryModal gameWon={gameWon}></VictoryModal>
-      <RulesModal></RulesModal>
     </div>
   )
 }
