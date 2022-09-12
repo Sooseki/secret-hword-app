@@ -1,5 +1,4 @@
 import React from 'react';
-import './Room.scss';
 import Form from '../../components/Form/Form';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
@@ -7,6 +6,7 @@ import { SvgCards } from "../../assets/svg_tsx/SvgCards"
 import { Rules } from "../../components/Rules"
 import bookIcon from "../../assets/svg/book.svg"
 import Title from "../../assets/imgs/banner.png"
+import './Room.scss';
 
 function Room() {
   const [roomCreation, setRoomCreation] = useState({}); 
