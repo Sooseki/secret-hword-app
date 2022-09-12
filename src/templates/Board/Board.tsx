@@ -16,19 +16,19 @@ import VictoryModal from "../../components/VictoryModal/VictoryModal";
 import LinkToShare from "../../components/LinkToShare/LinkToShare";
 import "./Board.scss";
 
-
 const socket = io("http://localhost:5555");
 
 const Board = () => {
   const navigate = useNavigate();
   const { player, setPlayer } = useContext(UserContext);
-  const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([])
+  const [otherPlayers, setOtherPlayers] = useState<Array<Player>>([]);
   const [isPresident, setIsPresident] = useState<boolean>(false);
   const [isChancelor, setIsChancelor] = useState<boolean>(false);
   const [selectedChancelor, setSelectedChancelor] = useState<Player>();
   const [selectedPresident, setSelectedPresident] = useState<Player>();
   const [hasVotedPlayers, setHasVotedPlayers] = useState<Array<Player>>([]);
   const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
+  const [isGameEnded, setIsGameEnded] = useState<boolean>(false);
   const [mustVote, setMustVote] = useState<boolean>(false);
   const [gameWon, setGameWon] = useState<string>();
   let tempPlayer = player;
@@ -38,7 +38,7 @@ const Board = () => {
     tempPlayer = { ...player, vote: undefined };
     setPlayer(tempPlayer);
     setHasVotedPlayers([]);
-  }
+  };
 
   const startTurn = (president: Player) => {
     setMustVote(true);
@@ -69,12 +69,16 @@ const Board = () => {
           localStorage.setItem("host", "true");
           localStorage.setItem("turn", "true");
         }
-        
-        tempPlayer = { ...tempPlayer, socketId: socket.id};
+
+        tempPlayer = { ...tempPlayer, socketId: socket.id };
         setPlayer(tempPlayer);
         localStorage.setItem("socketId", socket.id);
-        
+
         socket.emit("joinRoom", tempPlayer);
+
+        socket.on("play again", (roomId: string) => {
+          setIsGameEnded(true);
+        });
 
         socket.on("get room", (roomId: string) => {
           localStorage.setItem("roomId", roomId);
@@ -82,7 +86,6 @@ const Board = () => {
         });
 
         socket.on("player join", (incommingPlayer: Player) => {
-
           if (incommingPlayer.playerId === player.playerId) return;
 
           let alreadyLoggedIn = false;
@@ -93,7 +96,7 @@ const Board = () => {
           });
 
           if (!alreadyLoggedIn) {
-            tempOtherPlayers = [...tempOtherPlayers, incommingPlayer]
+            tempOtherPlayers = [...tempOtherPlayers, incommingPlayer];
             setOtherPlayers(tempOtherPlayers);
           }
         });
@@ -101,7 +104,7 @@ const Board = () => {
         socket.on("logged players", (players: Player[]) => {
           players.map(otherplayer => {
             if (otherplayer.playerId != player.playerId) {
-              tempOtherPlayers = [...tempOtherPlayers, otherplayer]
+              tempOtherPlayers = [...tempOtherPlayers, otherplayer];
               setOtherPlayers(tempOtherPlayers);
             }
           });
@@ -110,21 +113,21 @@ const Board = () => {
         socket.on("start game", president => {
           setIsGameStarted(true);
           startTurn(president);
-        })
+        });
 
-        socket.on("selected chancelor", (chancelor:Player) => {
+        socket.on("selected chancelor", (chancelor: Player) => {
           setSelectedChancelor(chancelor);
           setIsChancelor(player.playerId === chancelor.playerId);
-        })
+        });
 
-        socket.on("player voted", (player:Player) => {  
+        socket.on("player voted", (player: Player) => {
           setHasVotedPlayers(hasVotedPlayers => [...hasVotedPlayers, player]);
-        })
+        });
 
-        socket.on("victory", (winningSide:string) => {
+        socket.on("victory", (winningSide: string) => {
           setIsGameStarted(false);
           setGameWon(winningSide);
-        })
+        });
 
         socket.on("new turn", (president: Player) => {
           setTimeout(() => {
@@ -134,8 +137,8 @@ const Board = () => {
             resetVotes();
             setHasVotedPlayers([]);
             startTurn(president);
-          }, 5000)
-        })
+          }, 5000);
+        });
       }
     }
   }, []);
@@ -144,7 +147,7 @@ const Board = () => {
     <div className="GameBoard">
       {player && player.username && (
         <div className="current-player-icon">
-          <PlayerIcon 
+          <PlayerIcon
             player={player}
             isSelectedChancelor={isChancelor}
             isSelectedPresident={isPresident}
@@ -158,35 +161,48 @@ const Board = () => {
         </div>
       )}
 
-      {otherPlayers &&  
-        <OtherPlayers 
-          selectedPresident={selectedPresident} 
-          selectedChancelor={selectedChancelor} 
+      {otherPlayers && (
+        <OtherPlayers
+          selectedPresident={selectedPresident}
+          selectedChancelor={selectedChancelor}
           players={otherPlayers}
           hasVotedPlayers={hasVotedPlayers}
         ></OtherPlayers>
-      }
-      
-      <SelectPlayerModal 
+      )}
+
+      <SelectPlayerModal
         socket={socket}
-        setSelectedChancelor={setSelectedChancelor} 
+        setSelectedChancelor={setSelectedChancelor}
         players={otherPlayers}
         isPresident={isPresident}
         setIsPresident={setIsPresident}
       ></SelectPlayerModal>
 
-      { mustVote && selectedPresident && selectedChancelor && 
-        <VoteCardBlock socket={socket} hasVotedPlayers={hasVotedPlayers} player={player}></VoteCardBlock> 
-      }
+      {mustVote && selectedPresident && selectedChancelor && (
+        <VoteCardBlock
+          socket={socket}
+          hasVotedPlayers={hasVotedPlayers}
+          player={player}
+        ></VoteCardBlock>
+      )}
 
-      { isGameStarted && <BoardComponent socket={socket}></BoardComponent> }
-      <VoteResultModal socket={socket} setMustVote={setMustVote} isPresident={isPresident} setIsPresident={setIsPresident}></VoteResultModal>
+      {isGameStarted && <BoardComponent socket={socket}></BoardComponent>}
+      <VoteResultModal
+        socket={socket}
+        setMustVote={setMustVote}
+        isPresident={isPresident}
+        setIsPresident={setIsPresident}
+      ></VoteResultModal>
       <PlayerRole socket={socket}></PlayerRole>
-      <SelectCardModal isPresident={isPresident} isChancelor={isChancelor} socket={socket}></SelectCardModal>
+      <SelectCardModal
+        isPresident={isPresident}
+        isChancelor={isChancelor}
+        socket={socket}
+      ></SelectCardModal>
       <VictoryModal gameWon={gameWon}></VictoryModal>
       <RulesModal></RulesModal>
     </div>
   );
-}
+};
 
 export default Board;
