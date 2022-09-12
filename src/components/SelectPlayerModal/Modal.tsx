@@ -27,10 +27,7 @@ const PlayerModal:any = ({ setSelectedChancelor, setMustPresidentChose, socket, 
         console.log(e.currentTarget.closest(".handle-select-player")?.id)
     
         players.map((player) => {
-            console.log(player.playerId === selectedPlayer)
-
             if (player.playerId === e.currentTarget.closest(".handle-select-player")?.id) {
-                console.log(player)
                 setSelectedChancelor(player);
                 handleChancelor(player);
             }
@@ -41,13 +38,16 @@ const PlayerModal:any = ({ setSelectedChancelor, setMustPresidentChose, socket, 
             <>
                 <div className="modal">
                     <div className="modal-content">
-                       {players.map((player) => {
+                    <h2 className="modal-title">Elect a Chancelor !</h2>
+                    <div className="select-player-container">
+                        {players.map((player) => {
                             return(
                                 <div id={player.playerId} onClick={handleSelectPlayer} className="handle-select-player">
                                     <PlayerIcon player={player}></PlayerIcon>
                                 </div>
                                 )
-                       })} 
+                        })} 
+                    </div>
                     </div>
                 </div>
             </>, container

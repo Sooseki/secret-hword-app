@@ -5,6 +5,7 @@ div.playerComponent {
   justify-content: center;
   align-items: center;
   position: relative;
+  cursor: pointer;
 }
 
 .playerComponent img {
@@ -20,7 +21,7 @@ div.playerComponent {
 
 h1.playerName {
   color: rgb(49, 49, 49);
-  font-size: small;
+  font-size: 20px;
 }
 
 .playerHasVoted {
