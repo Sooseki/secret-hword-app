@@ -13,7 +13,9 @@ import SelectPlayerModal from "../../components/SelectPlayerModal/SelectPlayerMo
 import VoteResultModal from "../../components/VoteResultModal/VoteResultModal";
 import SelectCardModal from "../../components/SelectCardModal/SelectCardModal";
 import VictoryModal from "../../components/VictoryModal/VictoryModal";
+import LinkToShare from "../../components/LinkToShare/LinkToShare";
 import "./Board.scss";
+
 
 const socket = io("http://localhost:5555");
 
@@ -152,13 +154,7 @@ const Board = () => {
 
       {player && player.roomId && !isGameStarted && (
         <div id="link-to-share">
-          <Link
-            to={{
-              pathname: "/?room=" + player.roomId
-            }}
-          >
-            http://localhost:3001/?room={player.roomId}
-          </Link>
+          <LinkToShare player={player}></LinkToShare>
         </div>
       )}
 
@@ -170,7 +166,7 @@ const Board = () => {
           hasVotedPlayers={hasVotedPlayers}
         ></OtherPlayers>
       }
-      <RulesModal></RulesModal>
+      
       <SelectPlayerModal 
         socket={socket}
         setSelectedChancelor={setSelectedChancelor} 
@@ -188,6 +184,7 @@ const Board = () => {
       <PlayerRole socket={socket}></PlayerRole>
       <SelectCardModal isPresident={isPresident} isChancelor={isChancelor} socket={socket}></SelectCardModal>
       <VictoryModal gameWon={gameWon}></VictoryModal>
+      <RulesModal></RulesModal>
     </div>
   );
 }
