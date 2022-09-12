@@ -41,13 +41,14 @@ const Form = ({ form, setData }: props) => {
                   onChange={(e) => updateForm(e, form.inputs[index].name)}
                   placeholder={form.inputs[index].placeholder}
                   value={form.inputs[index].value}
+                  className="input_type_1"
                 />
               ) : (
                 <input
                   type={form.inputs[index].type}
                   onChange={(e) => updateForm(e, form.inputs[index].name)}
                   placeholder={form.inputs[index].placeholder}
-                  className="usernameInput"
+                  className="input_type_1"
                 />
               )}
               <input type="submit" className="submit" value="VALIDER" />

@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom"
 import { UserContext } from "../../themeContext"
 import Title from "../../assets/imgs/banner.png"
 import { SvgCards } from "../../assets/svg_tsx/SvgCards"
-import FacistIcon from "../../assets/svg/facistIcon.svg"
-import LiberalIcon from "../../assets/svg/liberalIcon.svg"
 import {Rules} from "../../components/Rules/index"
 import bookIcon from "../../assets/svg/book.svg"
 
@@ -15,11 +13,11 @@ function Login() {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const roomId = urlParams.get("room")
-  const [loginAvailable, setLoginAvailable] = useState(false)
-  const [displayRules, setDisplayRules] = useState(false)
   const { player, setPlayer } = useContext(UserContext)
   const [data, setData] = useState<User>({ username: "", role: "" })
   const navigate = useNavigate()
+  const [loginAvailable, setLoginAvailable] = useState(false)
+  const [displayRules, setDisplayRules] = useState(false)
 
   const LoginRendder = () => {
     console.log(loginAvailable)

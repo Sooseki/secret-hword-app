@@ -1,5 +1,5 @@
 import React from "react"
-
+import "./rules.scss"
 export const Rules = () => {
   return (
     <div className="rulesContainer">
