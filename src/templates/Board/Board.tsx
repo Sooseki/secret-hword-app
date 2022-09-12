@@ -17,7 +17,7 @@ import LinkToShare from "../../components/LinkToShare/LinkToShare";
 import "./Board.scss";
 
 
-const socket = io("http://localhost:5555");
+const socket = io("https://secret-hword.herokuapp.com/");
 
 const Board = () => {
   const navigate = useNavigate();
