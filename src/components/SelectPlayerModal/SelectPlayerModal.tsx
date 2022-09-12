@@ -35,8 +35,13 @@ const SelectPlayerModal = ({players, socket, setSelectedChancelor, isPresident, 
     return (
         <div className="select-player-modal">
             {mustPresidentChose &&
-                <Modal setSelectedChancelor={setSelectedChancelor} setMustPresidentChose={setMustPresidentChose} socket={socket} players={players} isModalShowing={isModalShowing} />
-            }
+                <Modal 
+                    setSelectedChancelor={setSelectedChancelor} 
+                    setMustPresidentChose={setMustPresidentChose} 
+                    socket={socket} players={players} 
+                    isModalShowing={isModalShowing} 
+                    />
+                }
         </div>
     )
 }

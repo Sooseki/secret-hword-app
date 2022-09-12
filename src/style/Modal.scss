@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "Enchanted land";
+    src: url("../style/Enchanted\ Land.otf") format("woff2"),
+}
 .modal {
     position: fixed;
     inset: 0; /* inset sets all 4 values (top right bottom left) much like how we set padding, margin etc., */
@@ -11,18 +15,23 @@
     z-index: 999;
     padding: 40px 20px 20px;
 }
+h2 {
+    font-size: 50px!important;
+}
 .modal-content {
     -webkit-box-shadow: 0px 4px 16px 1px rgba(0,0,0,0.65); 
     box-shadow: 0px 4px 16px 1px rgba(0,0,0,0.65);
     border-radius: 2%;
     width: 50%;
     height: 70%;
-    background-color: #F5D49E;
-    color: #A74E31;
+    background-image: linear-gradient(to right bottom, #e98f21, #eb9632, #ed9c41, #efa34f, #f0a95c, #efa75a, #efa558, #eea356, #eb9845, #e88d33, #e5811f, #e27500);
+    color: #fdfdfd;
+    font-family:'Enchanted land';
+    margin: 0px;
+    padding: 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
     font-size: 1rem;
     position: relative;
 }
@@ -37,7 +46,7 @@
     font-style: normal;
     font-weight: 600;
     color: #F5D49E;
-    background-color: #A74E31;
+    background-color: #e98f21;
 }
 .close-modal-button:hover, .rules-button:hover {
     box-shadow: 0 0 10px 0 #0f0a0942 inset, 0 0 10px 4px #0f0a099f;
@@ -57,4 +66,8 @@
     font-weight: 600;
     color: #F5D49E;
     background-color: #A74E31;
+}
+.select-player-container {
+    display: flex;
+    gap: 1rem;
 }
