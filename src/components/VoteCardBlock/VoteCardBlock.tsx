@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import { Socket } from 'socket.io-client';
 import { Player } from '../../types/types';
 import VoteCard from '../VoteCard/VoteCard';
 import './VoteCardBlock.scss';
 
 interface props {
-  socket: any
+  socket: Socket
   hasVotedPlayers: Array<Player>
   player: Player
 }
@@ -23,6 +24,7 @@ const VoteCardBlock = ({socket, hasVotedPlayers, player}:props) => {
     if (document.querySelector('.ChosenVoteCard')) document.querySelector('.VoteCard:not(.ChosenVoteCard)')?.classList.add('hideCard');
     setPlayerVote(undefined);
   }, [playerVote, setPlayerVote])
+  
   return (
     <div className="VoteCardBlock">
         <VoteCard setVote={setPlayerVote} isYesCard={true}></VoteCard>

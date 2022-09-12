@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from "react-dom";
 
 interface props {
-    hideModal: any
+    hideModal: () => void
     isModalShowing: boolean
     isToggled: boolean
 }

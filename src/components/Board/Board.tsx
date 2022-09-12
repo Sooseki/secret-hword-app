@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Socket } from 'socket.io-client';
 import FascBoard from '../FascBoard/FascBoard';
 import LibBoard from '../LibBoard/LibBoard';
 import './Board.scss';
 
 interface props {
-  socket: any
+  socket: Socket
 }
 
 const Board = ({ socket }:props) => {

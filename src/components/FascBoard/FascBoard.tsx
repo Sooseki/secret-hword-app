@@ -6,7 +6,7 @@ interface props {
     countFascCards: number
 }
 
-function FascBoard({countFascCards}:props) {
+const FascBoard = ({countFascCards}:props) => {
   return (
     <div className="FascBoard">
         <div className="FascBoard__decorations">

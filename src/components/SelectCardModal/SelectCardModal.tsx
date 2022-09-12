@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import VoteCard from '../VoteCard/VoteCard';
-import './SelectCardModal.scss';
 import Modal from "./Modal";
 import { Player } from '../../types/types';
+import { Socket } from 'socket.io-client';
+import './SelectCardModal.scss';
 
 interface props {
-  socket: any
+  socket: Socket
   isPresident: boolean
   isChancelor: boolean
 }

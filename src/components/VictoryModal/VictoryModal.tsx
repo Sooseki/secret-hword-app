@@ -1,5 +1,3 @@
-import React, {useEffect, useState} from 'react';
-import VoteCard from '../VoteCard/VoteCard';
 import './VictoryModal.scss';
 import Modal from "./Modal";
 

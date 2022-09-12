@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { Socket } from 'socket.io-client';
 import './PlayerRole.scss'
 
 interface props {
-  socket: any
+  socket: Socket
 }
 
 const PlayerRole = ({ socket }: props) => {

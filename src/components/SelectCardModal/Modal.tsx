@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from "react-dom";
 import fascistCard from "../../images/fascistCard.svg";
 import liberalCard from "../../images/liberalCard.svg";
-// type Card = [liberal:string]
 
 interface props {
     isToggled: boolean
@@ -29,7 +28,7 @@ const Modal:any = ({ cards, eventHandler }: props) => {
                         {cards.map((card) => {
                             return (
                                 <div onClick={(e) => handleOnclick(e, card)} className="law-card">  
-                                <img src={svgCards[card]} alt="" />
+                                    <img src={svgCards[card]} alt="" />
                                 </div>
                             )
                         })}
