@@ -7,7 +7,7 @@ interface props {
 
 const LinkToShare = ({player}: props) => {
     const copyToClipboard = () => {
-        const url = "https://secret-hword.herokuapp.com/?room=" + player.roomId;
+        const url = "https://secret-hword-3.netlify.app/?room=" + player.roomId;
         navigator.clipboard.writeText(url);
     }
     return (
