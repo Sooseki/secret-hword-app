@@ -1,0 +1,68 @@
+.ruleAllPage {
+    width: 80vw;
+    height: 700vh;
+
+    display: flex;
+    flex-direction: column;
+    .rulePage {
+        width: 100%;
+        height: auto;
+        padding: 2vh 0;
+        margin: 0.5rem 0;
+        display: flex;
+        justify-content: space-between;
+        border: solid 1px black;
+        background-image: url("../../assets/imgs/testBG.png");
+        background-size: cover;
+        .leftPage {
+            width: 49%;
+        }
+        .rightPage {
+            width: 49%;
+        }
+        .page {
+            p {
+                margin: 2rem 4rem;
+                line-height: 1.6rem;
+                letter-spacing: 0.15rem;
+            }
+            .n_text {
+                font-size: 1.4rem;
+            }
+            .t_text {
+                margin: 3rem 4rem;
+                font-size: 2.5rem;
+                font-weight: bold;
+                text-decoration: underline;
+                line-height: 2.7rem;
+            }
+            .i_style {
+                font-style: italic;
+            }
+            .l_space {
+                margin: 0.8rem 4rem;
+            }
+            .b_style {
+                font-weight: bold;
+            }
+            .red_style {
+                color: rgb(241, 98, 98);
+            }
+            .lt_text {
+                margin: 2.2rem 4rem;
+                font-size: 1.6rem;
+                font-weight: bold;
+                text-decoration: underline;
+                line-height: 1.6rem;
+            }
+            .n_space {
+                margin: 0 4rem;
+                line-height: 0rem;
+            }
+            .l_space {
+                margin: 0 4rem;
+                line-height: normal;
+            }
+        }
+    }
+}

@@ -1,18 +1,54 @@
 import React, {useEffect, useState} from 'react';
-import VoteCard from '../VoteCard/VoteCard';
-import './SelectCardModal.scss';
 import Modal from "./Modal";
+import { Player } from '../../types/types';
+import { Socket } from 'socket.io-client';
+import './SelectCardModal.scss';
 
 interface props {
-  cards: Array<string>
-  eventHandler: (selectedCard: string) => void
+  socket: Socket
+  isPresident: boolean
+  isChancelor: boolean
 }
 
-const SelectCardModal = ({cards, eventHandler}:props) => {
-    
+const SelectCardModal = ({socket, isPresident, isChancelor}:props) => {
+  const [selectedCards, setSelectedCards] = useState<Array<string>>([]);
+  const [drawnLawCards, setDrawnLawCards] = useState<Array<string>>();
+
+  const selectLawCards = (selectedCard:string) => {
+    setSelectedCards([...selectedCards, selectedCard]);
+  }
+
+  useEffect(() => {
+    if (isPresident && selectedCards.length === 2) {
+      socket.emit("president selected cards", selectedCards);
+      setDrawnLawCards(selectedCards);
+    }
+    if (isChancelor && selectedCards.length === 1) {
+      socket.emit("chancelor selected card", selectedCards[0]);
+      setDrawnLawCards(selectedCards);
+    }
+  }, [selectedCards, setSelectedCards])
+  
+  useEffect(() => {
+    socket.on("president cards", (cards: Array<string>) => {
+      setDrawnLawCards(cards);
+    })
+    socket.on("chancelor cards", (cards: Array<string>) => {
+      setDrawnLawCards(cards);
+    })
+    socket.on("new turn", (president: Player) => {
+      setTimeout(() => {
+        setDrawnLawCards([]);
+        setSelectedCards([]);
+      }, 5000)
+    })
+  }, [])
+
   return (
     <div className="SelectCardModal">
-      <Modal eventHandler={eventHandler} cards={cards}/>
+      {drawnLawCards && ((isPresident && drawnLawCards.length === 3) || (isChancelor && drawnLawCards.length === 2)) &&
+        <Modal eventHandler={selectLawCards} cards={drawnLawCards}/>
+      }
     </div>
   );
 }

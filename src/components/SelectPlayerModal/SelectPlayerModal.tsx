@@ -1,35 +1,47 @@
 import React, {useState, useEffect} from "react";
-import ReactDOM from "react-dom";
-import "./SelectPlayerModal.scss";
 import Modal from "./Modal";
 import useModal from "../../hooks/useModal";
 import { Player } from "../../types/types";
+import { Socket } from "socket.io-client";
+import "./SelectPlayerModal.scss";
 
 interface props {
     players: Array<Player>
-    isPresident: boolean
     setSelectedChancelor: React.Dispatch<React.SetStateAction<Player | undefined>>
-    eventHandler: (selectedPlayer:Player) => void
+    setIsPresident: React.Dispatch<React.SetStateAction<boolean>>
+    socket: Socket
+    isPresident: boolean
 }
 
-const SelectPlayerModal = ({players, isPresident, eventHandler, setSelectedChancelor}:props) => {
-    const [selectedPlayer, setSelectedPlayer] = useState<string>()
+const SelectPlayerModal = ({players, socket, setSelectedChancelor, isPresident, setIsPresident }:props) => {
     const { isModalShowing, setIsModalShowing } = useModal();  
-    useEffect(() => {
-        setIsModalShowing(isPresident)
-    }, [isPresident, setIsModalShowing]);
+    const [mustPresidentChose, setMustPresidentChose] = useState<boolean>(false);
 
     useEffect(() => {
-        players.map((player) => {
-            if (player.playerId === selectedPlayer) {
-                setSelectedChancelor(player);
-                eventHandler(player);
+        setIsModalShowing(mustPresidentChose)
+    }, [mustPresidentChose, setMustPresidentChose]);
+
+    useEffect(() => {
+        if (isPresident) setMustPresidentChose(true)
+
+        socket.off('no victory')
+        socket.on('no victory', () => {
+            if(isPresident) {
+                socket.emit('new turn')
             }
         })
-    }, [players, selectedPlayer, setSelectedChancelor])
+    }, [isPresident, setIsPresident])
+
     return (
         <div className="select-player-modal">
-            <Modal players={players} isModalShowing={isModalShowing} setSelectedPlayer={setSelectedPlayer}/>
+            {mustPresidentChose &&
+                <Modal 
+                    setSelectedChancelor={setSelectedChancelor} 
+                    setMustPresidentChose={setMustPresidentChose} 
+                    socket={socket} players={players} 
+                    isModalShowing={isModalShowing} 
+                    />
+                }
         </div>
     )
 }

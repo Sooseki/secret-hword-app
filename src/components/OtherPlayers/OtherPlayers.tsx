@@ -1,6 +1,4 @@
-import React, { Component } from "react";
 import "./OtherPlayers.scss";
-import userImage from "./user.png";
 import { Player } from "../../types/types";
 import PlayerIcon from "../PlayerIcon/PlayerIcon";
 

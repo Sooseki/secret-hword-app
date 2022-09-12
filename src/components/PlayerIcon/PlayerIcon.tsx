@@ -1,9 +1,6 @@
-import React, { Component } from "react";
 import "./PlayerIcon.scss";
 import userImage from "./user.png";
 import { Player } from "../../types/types";
-
-
 
 type props = {
   player: Player;
