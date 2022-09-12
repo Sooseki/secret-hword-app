@@ -167,13 +167,15 @@ const Board = () => {
         ></OtherPlayers>
       }
       
-      <SelectPlayerModal 
-        socket={socket}
-        setSelectedChancelor={setSelectedChancelor} 
-        players={otherPlayers}
-        isPresident={isPresident}
-        setIsPresident={setIsPresident}
-      ></SelectPlayerModal>
+      { isGameStarted &&
+        <SelectPlayerModal 
+          socket={socket}
+          setSelectedChancelor={setSelectedChancelor} 
+          players={otherPlayers}
+          isPresident={isPresident}
+          setIsPresident={setIsPresident}
+        ></SelectPlayerModal>
+      }
 
       { mustVote && selectedPresident && selectedChancelor && 
         <VoteCardBlock socket={socket} hasVotedPlayers={hasVotedPlayers} player={player}></VoteCardBlock> 
@@ -182,7 +184,7 @@ const Board = () => {
       { isGameStarted && <BoardComponent socket={socket}></BoardComponent> }
       <VoteResultModal socket={socket} setMustVote={setMustVote} isPresident={isPresident} setIsPresident={setIsPresident}></VoteResultModal>
       <PlayerRole socket={socket}></PlayerRole>
-      <SelectCardModal isPresident={isPresident} isChancelor={isChancelor} socket={socket}></SelectCardModal>
+      { isGameStarted && <SelectCardModal isPresident={isPresident} isChancelor={isChancelor} socket={socket}></SelectCardModal> }
       <VictoryModal gameWon={gameWon}></VictoryModal>
       <RulesModal></RulesModal>
     </div>
