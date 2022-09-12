@@ -14,12 +14,16 @@ const Board = ({ socket }:props) => {
   
   useEffect(() => {
     socket.on("selected law card", (card: string) => {
+      let libCards = countLibCards
+      let fascCards = countFascCards
       if (card === "liberal") {
-        setCountLibCards(countLibCards + 1);
+        libCards++
+        setCountLibCards(libCards);
       } else {
-        setCountFascCards(countFascCards + 1);
+        fascCards++
+        setCountFascCards(fascCards);
       }
-      socket.emit("check victory", countLibCards, countFascCards);
+      socket.emit("check victory", libCards, fascCards);
     })
   }, [countLibCards, setCountLibCards, countFascCards, setCountFascCards])
 
