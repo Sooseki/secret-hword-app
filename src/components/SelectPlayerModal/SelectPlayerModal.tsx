@@ -23,6 +23,13 @@ const SelectPlayerModal = ({players, socket, setSelectedChancelor, isPresident, 
 
     useEffect(() => {
         if (isPresident) setMustPresidentChose(true)
+
+        socket.off('no victory')
+        socket.on('no victory', () => {
+            if(isPresident) {
+                socket.emit('new turn')
+            }
+        })
     }, [isPresident, setIsPresident])
 
     return (

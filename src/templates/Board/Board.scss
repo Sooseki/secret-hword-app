@@ -1,3 +1,26 @@
+.GameBoard{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+
+    background-color: #db653e;
+    background-image: url("../../assets/imgs/bg_1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    .howToPlay {
+        z-index: 10;
+        position: absolute;
+        top: 1%;
+        right: 1%;
+        min-width: 5vw;
+        cursor: pointer;
+        text-align: center;
+    }
+}
 .current-player-icon {
     bottom: 1rem;
     left: 50%;
