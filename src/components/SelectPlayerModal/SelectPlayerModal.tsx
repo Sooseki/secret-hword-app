@@ -7,29 +7,43 @@ import { Player } from "../../types/types";
 
 interface props {
     players: Array<Player>
-    isPresident: boolean
     setSelectedChancelor: React.Dispatch<React.SetStateAction<Player | undefined>>
-    eventHandler: (selectedPlayer:Player) => void
+    setIsPresident: React.Dispatch<React.SetStateAction<boolean>>
+    socket: any
+    isPresident: boolean
 }
 
-const SelectPlayerModal = ({players, isPresident, eventHandler, setSelectedChancelor}:props) => {
+const SelectPlayerModal = ({players, socket, setSelectedChancelor, isPresident, setIsPresident }:props) => {
     const [selectedPlayer, setSelectedPlayer] = useState<string>()
     const { isModalShowing, setIsModalShowing } = useModal();  
+    const [mustPresidentChose, setMustPresidentChose] = useState<boolean>(false);
+
+    const handleChancelor = (selectedPlayer:Player) => {
+        setMustPresidentChose(false);
+        socket.emit("selected chancelor", selectedPlayer)
+    }
+
     useEffect(() => {
-        setIsModalShowing(isPresident)
-    }, [isPresident, setIsModalShowing]);
+        setIsModalShowing(mustPresidentChose)
+    }, [mustPresidentChose, setMustPresidentChose]);
+
+    useEffect(() => {
+        if (isPresident) setMustPresidentChose(true)
+    }, [isPresident, setIsPresident])
 
     useEffect(() => {
         players.map((player) => {
             if (player.playerId === selectedPlayer) {
                 setSelectedChancelor(player);
-                eventHandler(player);
+                handleChancelor(player);
             }
         })
     }, [players, selectedPlayer, setSelectedChancelor])
     return (
         <div className="select-player-modal">
-            <Modal players={players} isModalShowing={isModalShowing} setSelectedPlayer={setSelectedPlayer}/>
+            {mustPresidentChose &&
+                <Modal players={players} isModalShowing={isModalShowing} setSelectedPlayer={setSelectedPlayer}/>
+            }
         </div>
     )
 }

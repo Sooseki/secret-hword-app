@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './PlayerRole.scss'
 
 interface props {
-    role: string
+  socket: any
 }
 
-function PlayerRole({role}: props) {
+const PlayerRole = ({ socket }: props) => {
+  const [role, setRole] = useState<string>();
+
+  useEffect(() => {
+    socket.on("player role", (newRole:string) => {
+      setRole(newRole);
+    })
+  }, [])
+
   return (
     <div className="PlayerRole">
+      {role &&
         <div className={`PlayerRole__${role}`}>{role}</div>
+      }
     </div>
   );
 }

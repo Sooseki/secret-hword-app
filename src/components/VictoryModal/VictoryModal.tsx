@@ -4,14 +4,16 @@ import './VictoryModal.scss';
 import Modal from "./Modal";
 
 interface props {
-    gameWon: string
+    gameWon: string | undefined
 }
 
 const VictoryModal = ({gameWon}:props) => {
     
   return (
     <div className="VictoryModal">
-      <Modal gameWon={gameWon}/>
+      { gameWon &&
+        <Modal gameWon={gameWon}/>
+      }
     </div>
   );
 }
